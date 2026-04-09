@@ -8,28 +8,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display+SC:wght@400;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper:    #f2e8d0;
-  --paper2:   #ede0c4;
-  --ink:      #1c1510;
-  --ink2:     #3d3020;
-  --ink3:     #6b5a3e;
-  --gold:     #8a6e35;
-  --gold2:    #c9a84c;
-  --red:      #8c1a1a;
-  --bg:       #b5a07a;
+  --paper:  #f2e8d0;
+  --paper2: #ede0c4;
+  --ink:    #1c1510;
+  --ink2:   #3d3020;
+  --ink3:   #6b5a3e;
+  --gold:   #8a6e35;
+  --gold2:  #c9a84c;
+  --red:    #8c1a1a;
+  --bg:     #b5a07a;
 
-  /* Fluid font scale — hiç px kırılma olmaz */
-  --f-xs:   clamp(9px,  2.2vw, 11px);
-  --f-sm:   clamp(11px, 2.8vw, 13px);
-  --f-md:   clamp(13px, 3.4vw, 16px);
-  --f-lg:   clamp(17px, 4.5vw, 22px);
-  --f-xl:   clamp(21px, 5.5vw, 28px);
+  --f-xs: clamp(9px,  2.2vw, 11px);
+  --f-sm: clamp(11px, 2.8vw, 13px);
+  --f-md: clamp(13px, 3.4vw, 16px);
+  --f-lg: clamp(17px, 4.5vw, 22px);
 
-  /* Spacing scale */
-  --sp-xs:  clamp(4px,  1vw,  7px);
-  --sp-sm:  clamp(8px,  2vw,  14px);
-  --sp-md:  clamp(14px, 3.5vw, 22px);
-  --sp-lg:  clamp(20px, 5vw,  32px);
+  --sp-xs: clamp(4px,  1vw,  7px);
+  --sp-sm: clamp(8px,  2vw,  14px);
+  --sp-md: clamp(14px, 3.5vw, 22px);
+  --sp-lg: clamp(20px, 5vw,  32px);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,388 +44,161 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ─── Language Bar ─── */
+/* ── Dil çubuğu ── */
 .lang-bar {
-  display: flex; gap: clamp(2px, 0.8vw, 4px);
+  display: flex; gap: clamp(2px,.8vw,4px);
   margin-bottom: var(--sp-md);
-  background: rgba(28,21,16,0.18);
+  background: rgba(28,21,16,.18);
   padding: 3px; border-radius: 30px;
   backdrop-filter: blur(4px);
 }
 .lang-btn {
   font-family: 'Jost', sans-serif;
   font-size: var(--f-xs); font-weight: 500;
-  letter-spacing: clamp(1.5px, 0.5vw, 2.5px);
-  text-transform: uppercase;
+  letter-spacing: clamp(1.5px,.5vw,2.5px); text-transform: uppercase;
   padding: clamp(5px,1.2vw,7px) clamp(12px,3.5vw,20px);
   border: none; border-radius: 22px;
-  background: transparent; color: rgba(242,232,208,0.75); cursor: pointer;
-  transition: all 0.22s ease;
-  -webkit-tap-highlight-color: transparent;
+  background: transparent; color: rgba(242,232,208,.75); cursor: pointer;
+  transition: all .22s ease; -webkit-tap-highlight-color: transparent;
 }
-.lang-btn.active {
-  background: var(--paper); color: var(--ink2);
-  box-shadow: 0 1px 8px rgba(0,0,0,0.3);
-}
+.lang-btn.active { background: var(--paper); color: var(--ink2); box-shadow: 0 1px 8px rgba(0,0,0,.3); }
 
-/* ─── Paper wrapper ─── */
+/* ── Kağıt ── */
 .paper-wrap {
-  position: relative;
-  width: 100%; max-width: 460px;
-  filter: drop-shadow(0 8px 36px rgba(0,0,0,0.36)) drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+  position: relative; width: 100%; max-width: 460px;
+  filter: drop-shadow(0 8px 36px rgba(0,0,0,.36)) drop-shadow(0 2px 5px rgba(0,0,0,.2));
 }
-
-/* Köşe kıvrımı */
 .paper-wrap::after {
-  content: '';
-  position: absolute; bottom: -4px; right: -4px;
-  width: clamp(28px, 7vw, 42px); height: clamp(28px, 7vw, 42px);
-  background: linear-gradient(225deg, var(--bg) 46%, rgba(180,156,108,0.35) 46%, transparent 66%);
-  border-radius: 0 0 4px 0;
-  pointer-events: none; z-index: 10;
+  content: ''; position: absolute; bottom: -4px; right: -4px;
+  width: clamp(28px,7vw,42px); height: clamp(28px,7vw,42px);
+  background: linear-gradient(225deg, var(--bg) 46%, rgba(180,156,108,.35) 46%, transparent 66%);
+  border-radius: 0 0 4px 0; pointer-events: none; z-index: 10;
 }
-
 .paper {
-  position: relative;
-  background: var(--paper);
-  border-radius: 4px 4px 0 4px;
-  overflow: hidden;
+  position: relative; background: var(--paper);
+  border-radius: 4px 4px 0 4px; overflow: hidden;
 }
-
-/* Noise texture */
 .paper::before {
-  content: '';
-  position: absolute; inset: 0;
+  content: ''; position: absolute; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  pointer-events: none; z-index: 0; opacity: 0.6;
+  background-size: 200px 200px; pointer-events: none; z-index: 0; opacity: .6;
 }
 
-/* ─── Çift çerçeve ─── */
+/* ── Çerçeve ── */
 .frame-outer {
-  position: relative;
-  border: 1.5px solid var(--ink);
-  margin: clamp(6px, 1.5vw, 10px);
-  border-radius: 2px; z-index: 1;
+  position: relative; border: 1.5px solid var(--ink);
+  margin: clamp(6px,1.5vw,10px); border-radius: 2px; z-index: 1;
 }
 .frame-inner {
-  border: 0.75px solid var(--ink3);
-  margin: clamp(4px, 1vw, 6px);
-  padding: clamp(16px, 4vw, 26px) clamp(14px, 4vw, 24px) clamp(14px, 3vw, 20px);
+  border: .75px solid var(--ink3); margin: clamp(4px,1vw,6px);
+  padding: clamp(16px,4vw,26px) clamp(14px,4vw,24px) clamp(14px,3vw,20px);
   position: relative;
 }
-
-/* Köşe gold parantezleri */
-.frame-outer::before,
-.frame-outer::after,
-.frame-inner::before,
-.frame-inner::after {
-  content: '';
-  position: absolute;
-  width: clamp(10px, 2.5vw, 15px);
-  height: clamp(10px, 2.5vw, 15px);
+.frame-outer::before,.frame-outer::after,.frame-inner::before,.frame-inner::after {
+  content: ''; position: absolute;
+  width: clamp(10px,2.5vw,15px); height: clamp(10px,2.5vw,15px);
 }
-.frame-outer::before { top: -3px; left: -3px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
-.frame-outer::after  { top: -3px; right: -3px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
-.frame-inner::before { bottom: -3px; left: -3px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
-.frame-inner::after  { bottom: -3px; right: -3px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+.frame-outer::before { top:-3px; left:-3px; border-top:2px solid var(--gold); border-left:2px solid var(--gold); }
+.frame-outer::after  { top:-3px; right:-3px; border-top:2px solid var(--gold); border-right:2px solid var(--gold); }
+.frame-inner::before { bottom:-3px; left:-3px; border-bottom:2px solid var(--gold); border-left:2px solid var(--gold); }
+.frame-inner::after  { bottom:-3px; right:-3px; border-bottom:2px solid var(--gold); border-right:2px solid var(--gold); }
 
-/* Sararmış lekeler */
-.paper-stain {
-  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle, #8a6e35, transparent 70%);
-}
-.stain-tl { width: 90px; height: 90px; top: -25px; left: -25px; opacity: 0.10; }
-.stain-br { width: 65px; height: 65px; bottom: -18px; right: -18px; opacity: 0.07; }
+.paper-stain { position:absolute; border-radius:50%; pointer-events:none; z-index:0; background:radial-gradient(circle,#8a6e35,transparent 70%); }
+.stain-tl { width:90px; height:90px; top:-25px; left:-25px; opacity:.10; }
+.stain-br { width:65px; height:65px; bottom:-18px; right:-18px; opacity:.07; }
 
-/* ─── Başlık ─── */
-.header-wrap { text-align: center; margin-bottom: var(--sp-xs); position: relative; }
-
+/* ── Başlık ── */
+.header-wrap { text-align:center; margin-bottom:var(--sp-xs); position:relative; }
 .hotel-name {
-  font-family: 'Playfair Display SC', serif;
-  font-size: var(--f-xs); font-weight: 400;
-  letter-spacing: clamp(3px, 1.2vw, 6px);
-  color: var(--ink3);
-  display: block; margin-bottom: var(--sp-sm);
+  font-family:'Playfair Display SC',serif; font-size:var(--f-xs); font-weight:400;
+  letter-spacing:clamp(3px,1.2vw,6px); color:var(--ink3); display:block; margin-bottom:var(--sp-sm);
 }
-
-.ornament { display: flex; align-items: center; gap: clamp(5px, 1.5vw, 10px); margin: 0 auto clamp(8px,2vw,12px); }
-.ornament-line { flex: 1; height: 0.75px; background: linear-gradient(to right, transparent, var(--gold2), transparent); }
-.ornament-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
-.ornament-sm { width: 3px; height: 3px; background: var(--gold2); transform: rotate(45deg); flex-shrink: 0; }
+.ornament { display:flex; align-items:center; gap:clamp(5px,1.5vw,10px); margin:0 auto clamp(8px,2vw,12px); }
+.ornament-line { flex:1; height:.75px; background:linear-gradient(to right,transparent,var(--gold2),transparent); }
+.ornament-diamond { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+.ornament-sm { width:3px; height:3px; background:var(--gold2); transform:rotate(45deg); flex-shrink:0; }
 
 .menu-title {
-  font-family: 'Playfair Display SC', serif;
-  font-size: var(--f-lg); font-weight: 700;
-  letter-spacing: clamp(1px, 0.5vw, 3px);
-  color: var(--ink); line-height: 1.2;
-  display: block; margin-bottom: clamp(2px, 0.6vw, 5px);
+  font-family:'Playfair Display SC',serif; font-size:var(--f-lg); font-weight:700;
+  letter-spacing:clamp(1px,.5vw,3px); color:var(--ink); line-height:1.2;
+  display:block; margin-bottom:clamp(2px,.6vw,5px);
 }
-.menu-title.ar {
-  font-family: 'Playfair Display', serif;
-  direction: rtl; letter-spacing: 0;
-  font-size: var(--f-md);
-}
+.menu-title.ar { font-family:'Playfair Display',serif; direction:rtl; letter-spacing:0; font-size:var(--f-md); }
 .menu-subtitle {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: var(--f-sm);
-  color: var(--ink3); letter-spacing: clamp(0.5px, 0.3vw, 1.5px);
-  display: block;
+  font-family:'Playfair Display',serif; font-style:italic; font-size:var(--f-sm);
+  color:var(--ink3); letter-spacing:clamp(.5px,.3vw,1.5px); display:block;
 }
 
-/* ─── Menu items ─── */
+/* ── Ürün satırları ── */
 .loading-bar {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  font-style: italic; font-size: var(--f-sm);
-  color: var(--ink3); letter-spacing: 1px;
-  margin: var(--sp-sm) 0;
+  text-align:center; font-family:'Playfair Display',serif; font-style:italic;
+  font-size:var(--f-sm); color:var(--ink3); letter-spacing:1px; margin:var(--sp-sm) 0;
 }
-
-#items-wrap { display: flex; flex-direction: column; }
+#items-wrap { display:flex; flex-direction:column; }
 
 .menu-row {
-  display: flex; align-items: flex-end;
-  gap: clamp(4px, 1.2vw, 8px);
-  padding: clamp(4px, 1.2vw, 7px) 0;
-  border-bottom: 0.5px solid rgba(107,90,62,0.17);
-  opacity: 0;
-  animation: fadeRow 0.3s ease forwards;
+  display:flex; align-items:flex-end; gap:clamp(4px,1.2vw,8px);
+  padding:clamp(4px,1.2vw,7px) 0; border-bottom:.5px solid rgba(107,90,62,.17);
+  opacity:0; animation:fadeRow .3s ease forwards;
 }
-.menu-row:last-child { border-bottom: none; }
-.menu-row.ar { flex-direction: row-reverse; }
+.menu-row:last-child { border-bottom:none; }
+.menu-row.ar { flex-direction:row-reverse; }
 
-@keyframes fadeRow {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeRow { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 
 .item-name {
-  font-family: 'Playfair Display', serif;
-  font-size: var(--f-sm); font-weight: 600;
-  letter-spacing: clamp(0.3px, 0.2vw, 0.8px);
-  color: var(--ink2);
-  /* KRITIK: nowrap yok — uzun isimler kırılsın */
-  white-space: normal;
-  line-height: 1.45;
-  /* Fiyat kutusuna yer bırak */
-  min-width: 0; flex: 1 1 0;
-  max-width: calc(100% - 80px);
+  font-family:'Playfair Display',serif; font-size:var(--f-sm); font-weight:600;
+  letter-spacing:clamp(.3px,.2vw,.8px); color:var(--ink2);
+  white-space:normal; line-height:1.45; min-width:0; flex:1 1 0; max-width:calc(100% - 80px);
 }
-.item-name.ar {
-  font-family: 'Playfair Display', serif;
-  direction: rtl; letter-spacing: 0;
-  font-size: var(--f-md);
-}
+.item-name.ar { direction:rtl; letter-spacing:0; font-size:var(--f-md); }
 .item-sub {
-  display: block;
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: clamp(9px, 2vw, 11px);
-  color: var(--ink3); letter-spacing: 0;
-  font-weight: 400; margin-top: 2px;
+  display:block; font-family:'Playfair Display',serif; font-style:italic;
+  font-size:clamp(9px,2vw,11px); color:var(--ink3); font-weight:400; margin-top:2px;
 }
-.item-sub.ar { direction: rtl; }
+.item-sub.ar { direction:rtl; }
 
 .dots {
-  /* dots sadece item-name'in flex büyümesiyle yönetilsin */
-  width: clamp(6px, 2vw, 14px);
-  border-bottom: 1px dotted rgba(107,90,62,0.38);
-  margin-bottom: clamp(5px, 1.5vw, 8px);
-  flex-shrink: 0;
+  width:clamp(6px,2vw,14px); border-bottom:1px dotted rgba(107,90,62,.38);
+  margin-bottom:clamp(5px,1.5vw,8px); flex-shrink:0;
 }
 
-/* ─── Fiyat kutusu ─── */
 .price-box {
-  border: 1px solid var(--ink); border-radius: 2px;
-  width: clamp(60px, 17vw, 78px);
-  height: clamp(22px, 5.5vw, 28px);
-  background: var(--paper);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; position: relative; overflow: hidden;
+  border:1px solid var(--ink); border-radius:2px;
+  width:clamp(60px,17vw,78px); height:clamp(22px,5.5vw,28px);
+  background:var(--paper); display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; position:relative; overflow:hidden;
 }
-.price-box::before {
-  content: '';
-  position: absolute; inset: 0;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.07);
-  pointer-events: none;
-}
-.price-val {
-  font-family: 'Playfair Display', serif;
-  font-size: var(--f-md); font-weight: 600;
-  color: var(--ink); padding: 0 clamp(4px, 1vw, 7px); white-space: nowrap;
-}
-.price-tl {
-  font-size: clamp(8px, 1.8vw, 10px);
-  color: var(--ink3); font-family: 'Jost', sans-serif;
-  font-weight: 400; margin-left: 1px;
-}
-.price-box.empty::after {
-  content: '—';
-  font-family: 'Playfair Display', serif;
-  font-size: var(--f-sm); color: rgba(107,90,62,0.3);
-}
+.price-box::before { content:''; position:absolute; inset:0; box-shadow:inset 0 1px 3px rgba(0,0,0,.07); pointer-events:none; }
+.price-val { font-family:'Playfair Display',serif; font-size:var(--f-md); font-weight:600; color:var(--ink); padding:0 clamp(4px,1vw,7px); white-space:nowrap; }
+.price-tl { font-size:clamp(8px,1.8vw,10px); color:var(--ink3); font-family:'Jost',sans-serif; font-weight:400; margin-left:1px; }
+.price-box.empty::after { content:'—'; font-family:'Playfair Display',serif; font-size:var(--f-sm); color:rgba(107,90,62,.3); }
 
-/* ─── Section separator ─── */
-.section-sep {
-  display: flex; align-items: center; gap: clamp(5px, 1.5vw, 10px);
-  margin: clamp(6px, 1.5vw, 10px) 0;
-}
-.section-sep-line { flex: 1; height: 0.5px; background: var(--gold2); opacity: 0.48; }
-.section-sep-dot { width: 4px; height: 4px; background: var(--gold2); transform: rotate(45deg); opacity: 0.58; flex-shrink: 0; }
+.section-sep { display:flex; align-items:center; gap:clamp(5px,1.5vw,10px); margin:clamp(6px,1.5vw,10px) 0; }
+.section-sep-line { flex:1; height:.5px; background:var(--gold2); opacity:.48; }
+.section-sep-dot { width:4px; height:4px; background:var(--gold2); transform:rotate(45deg); opacity:.58; flex-shrink:0; }
 
-/* ─── Logo / Footer ─── */
+/* ── Logo ── */
 .logo-area {
-  display: flex; align-items: center; justify-content: center;
-  gap: clamp(8px, 2.5vw, 14px);
-  margin-top: clamp(14px, 3.5vw, 20px);
-  padding-top: clamp(10px, 2.5vw, 16px);
-  border-top: 0.75px solid var(--ink3);
-  position: relative;
+  display:flex; align-items:center; justify-content:center;
+  gap:clamp(8px,2.5vw,14px); margin-top:clamp(14px,3.5vw,20px);
+  padding-top:clamp(10px,2.5vw,16px); border-top:.75px solid var(--ink3); position:relative;
 }
 .logo-area::before {
-  content: '';
-  position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
-  width: clamp(40px, 12vw, 70px); height: 1px;
-  background: var(--gold2); opacity: 0.55;
+  content:''; position:absolute; top:-1px; left:50%; transform:translateX(-50%);
+  width:clamp(40px,12vw,70px); height:1px; background:var(--gold2); opacity:.55;
 }
+.logo-svg { width:clamp(36px,9vw,52px); height:clamp(36px,9vw,52px); flex-shrink:0; }
+.logo-text { line-height:1.15; }
+.brand { font-family:'Playfair Display SC',serif; font-size:clamp(18px,5vw,26px); font-weight:700; color:var(--ink); display:block; letter-spacing:.5px; }
+.tagline { font-family:'Jost',sans-serif; font-size:clamp(7px,1.6vw,9px); letter-spacing:clamp(1.5px,.7vw,3px); color:var(--ink3); text-transform:uppercase; display:block; margin-top:2px; }
+.tagline .mardin { color:var(--red); font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(9px,2.5vw,13px); font-weight:600; letter-spacing:.5px; }
 
-.logo-svg {
-  width: clamp(36px, 9vw, 52px);
-  height: clamp(36px, 9vw, 52px);
-  flex-shrink: 0;
-}
+.fade-out { opacity:0; transition:opacity .15s; }
+.fade-in  { opacity:1; transition:opacity .2s; }
 
-.logo-text { line-height: 1.15; }
-.brand {
-  font-family: 'Playfair Display SC', serif;
-  font-size: clamp(18px, 5vw, 26px); font-weight: 700;
-  color: var(--ink); display: block; letter-spacing: 0.5px;
-}
-.tagline {
-  font-family: 'Jost', sans-serif;
-  font-size: clamp(7px, 1.6vw, 9px);
-  letter-spacing: clamp(1.5px, 0.7vw, 3px);
-  color: var(--ink3); text-transform: uppercase;
-  display: block; margin-top: 2px;
-}
-.tagline .mardin {
-  color: var(--red); font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: clamp(9px, 2.5vw, 13px);
-  font-weight: 600; letter-spacing: 0.5px;
-}
-
-/* ─── Admin ─── */
-.admin-wrap {
-  width: 100%; max-width: 460px;
-  margin-top: clamp(10px, 2.5vw, 16px);
-}
-
-.admin-toggle {
-  display: block; width: 100%;
-  font-family: 'Jost', sans-serif;
-  font-size: clamp(8px, 2vw, 10px); font-weight: 500;
-  letter-spacing: clamp(1.5px, 0.5vw, 2.5px); text-transform: uppercase;
-  padding: clamp(8px, 2vw, 11px) 0;
-  background: rgba(28,21,16,0.12);
-  border: 1px solid rgba(28,21,16,0.25); border-radius: 4px;
-  color: rgba(242,232,208,0.8); cursor: pointer; text-align: center;
-  transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.admin-toggle:hover { background: rgba(28,21,16,0.22); color: var(--paper); }
-
-.admin-panel {
-  display: none;
-  background: var(--paper2);
-  border: 1.5px solid var(--ink); border-radius: 4px;
-  padding: clamp(14px, 3.5vw, 22px);
-  margin-top: 10px;
-}
-.admin-panel.open { display: block; }
-
-.admin-title {
-  font-family: 'Playfair Display SC', serif;
-  font-size: var(--f-md); font-weight: 700; color: var(--ink);
-  margin-bottom: var(--sp-sm); padding-bottom: var(--sp-xs);
-  border-bottom: 0.75px solid var(--gold2); letter-spacing: 1px;
-}
-
-.admin-grid {
-  display: grid;
-  grid-template-columns: 1fr clamp(80px, 22vw, 110px);
-  gap: clamp(5px, 1.2vw, 8px) clamp(8px, 2vw, 12px);
-  align-items: center;
-}
-
-.admin-label {
-  font-family: 'Jost', sans-serif;
-  font-size: clamp(9px, 2.1vw, 11px); font-weight: 500;
-  letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink2);
-}
-
-.admin-input {
-  width: 100%; background: var(--paper);
-  border: 1px solid var(--gold); border-radius: 2px;
-  color: var(--ink);
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(13px, 3.5vw, 16px);
-  text-align: right; padding: clamp(4px,1vw,6px) clamp(6px,1.5vw,10px);
-  outline: none; transition: border-color 0.15s;
-  /* iOS zoom engeli: 16px altına düşmez */
-  min-font-size: 16px;
-}
-.admin-input:focus { border-color: var(--ink); }
-.admin-input::placeholder { color: #bbb; font-size: 10px; font-family: 'Jost', sans-serif; }
-
-.admin-sep {
-  grid-column: 1/-1; height: 0.75px;
-  background: linear-gradient(to right, transparent, var(--gold2), transparent);
-  margin: 2px 0;
-}
-
-.save-btn {
-  margin-top: var(--sp-sm); width: 100%;
-  font-family: 'Jost', sans-serif;
-  font-size: clamp(9px, 2.2vw, 11px); font-weight: 600;
-  letter-spacing: clamp(2px, 0.6vw, 3px); text-transform: uppercase;
-  padding: clamp(9px, 2.5vw, 13px);
-  background: var(--ink); color: var(--paper);
-  border: none; border-radius: 2px; cursor: pointer;
-  transition: background 0.18s;
-  -webkit-tap-highlight-color: transparent;
-}
-.save-btn:hover { background: #2c2318; }
-.save-btn:disabled { background: #888; cursor: not-allowed; }
-
-.save-ok {
-  text-align: center; font-size: clamp(10px, 2.3vw, 12px); color: #2a6e2a;
-  font-family: 'Jost', sans-serif; margin-top: 8px;
-  letter-spacing: 1px; opacity: 0; transition: opacity 0.3s;
-}
-.save-ok.show { opacity: 1; }
-.save-err {
-  text-align: center; font-size: clamp(10px, 2.3vw, 12px); color: #c0392b;
-  font-family: 'Jost', sans-serif; margin-top: 8px;
-  letter-spacing: 1px; display: none;
-}
-
-/* ─── Geçiş ─── */
-.fade-out { opacity: 0; transition: opacity 0.15s; }
-.fade-in  { opacity: 1; transition: opacity 0.2s; }
-
-/* ─── 480px ve altı (küçük telefon) ─── */
-@media (max-width: 480px) {
-  .item-name { max-width: calc(100% - 68px); }
-  .dots { width: 6px; }
-}
-
-/* ─── 640px üstü (büyük telefon / tablet) ─── */
-@media (min-width: 640px) {
-  .item-name { max-width: calc(100% - 90px); }
-}
+@media (max-width:480px) { .item-name { max-width:calc(100% - 68px); } .dots { width:6px; } }
+@media (min-width:640px) { .item-name { max-width:calc(100% - 90px); } }
 </style>
 </head>
 <body>
@@ -441,30 +211,23 @@ body {
 
 <div class="paper-wrap">
   <div class="paper">
-    <!-- Sararmış köşe lekeleri -->
     <div class="paper-stain stain-tl"></div>
     <div class="paper-stain stain-br"></div>
-
     <div class="frame-outer">
       <div class="frame-inner">
 
-        <!-- Başlık -->
         <div class="header-wrap">
           <span class="hotel-name">Swiss Inn Mardin</span>
           <div class="ornament">
-            <div class="ornament-line"></div>
-            <div class="ornament-sm"></div>
-            <div class="ornament-diamond"></div>
-            <div class="ornament-sm"></div>
+            <div class="ornament-line"></div><div class="ornament-sm"></div>
+            <div class="ornament-diamond"></div><div class="ornament-sm"></div>
             <div class="ornament-line"></div>
           </div>
           <span class="menu-title" id="menu-title">MİNİ BAR</span>
           <span class="menu-subtitle" id="menu-subtitle">Ücret Tarifesi</span>
-          <div class="ornament" style="margin-top:10px; margin-bottom:0;">
-            <div class="ornament-line"></div>
-            <div class="ornament-sm"></div>
-            <div class="ornament-diamond"></div>
-            <div class="ornament-sm"></div>
+          <div class="ornament" style="margin-top:10px;margin-bottom:0">
+            <div class="ornament-line"></div><div class="ornament-sm"></div>
+            <div class="ornament-diamond"></div><div class="ornament-sm"></div>
             <div class="ornament-line"></div>
           </div>
         </div>
@@ -472,7 +235,6 @@ body {
         <div class="loading-bar" id="loading">Yükleniyor…</div>
         <div id="items-wrap"></div>
 
-        <!-- Logo -->
         <div class="logo-area">
           <svg class="logo-svg" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
             <circle cx="28" cy="28" r="27" fill="none" stroke="#8c1a1a" stroke-width="1"/>
@@ -486,107 +248,79 @@ body {
           </div>
         </div>
 
-      </div><!-- frame-inner -->
-    </div><!-- frame-outer -->
-  </div><!-- paper -->
-</div><!-- paper-wrap -->
-
-<div class="admin-wrap">
-  <button class="admin-toggle" onclick="toggleAdmin()">⚙ &nbsp;Fiyat Yönetimi</button>
-  <div class="admin-panel" id="admin-panel">
-    <div class="admin-title">Fiyat Girişi</div>
-    <div class="admin-grid" id="admin-grid"></div>
-    <button class="save-btn" id="save-btn" onclick="saveAll()">Kaydet</button>
-    <div class="save-ok" id="save-ok">✓ Fiyatlar kaydedildi</div>
-    <div class="save-err" id="save-err">✗ Hata oluştu, tekrar dene</div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-const SUPABASE_URL = 'https://blwqssdudrrqgnfqposw.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3Fzc2R1ZHJycWduZnFwb3N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTg1NjcsImV4cCI6MjA5MTMzNDU2N30.EgpT-Es41_5XpyX46fmkJkZLZ8xTl18APCltIjvFGWI';
-
-const ITEMS = [
-  {key:'coca',   tr:'Coca-Cola',                  en:'Coca-Cola',            ar:'كوكا كولا'},
-  {key:'fanta',  tr:'Fanta',                       en:'Fanta',                ar:'فانتا'},
-  {key:'sprite', tr:'Sprite',                      en:'Sprite',               ar:'سبرايت'},
-  {key:'meyveK', tr:'Meyve Suyu Karışık',         en:'Mixed Fruit Juice',    ar:'عصير فواكه مشكل'},
-  {key:'meyveV', tr:'Meyve Suyu Vişne',           en:'Sour Cherry Juice',    ar:'عصير كرز حامض'},
-  {key:'enerji', tr:'Enerji İçeceği',             en:'Energy Drink',         ar:'مشروب طاقة'},
-  {key:'ciko',   tr:'Çikolata',                   en:'Chocolate',            ar:'شوكولاتة'},
-  {key:'cerez',  tr:'Karışık Çerez',              en:'Mixed Nuts',           ar:'مكسرات مشكلة'},
-  {key:'sodaS',  tr:'Soda Sade',                  en:'Plain Soda',           ar:'صودا سادة'},
-  {key:'sodaM',  tr:'Soda Meyveli',               en:'Fruity Soda',          ar:'صودا بالفاكهة'},
-  {key:'meyveT', tr:'Meyve Tabağı',              en:'Fruit Plate',          ar:'طبق فواكه',
-   trSub:'Resepsiyondan talep ediniz', enSub:'Request from reception', arSub:'اطلب من الاستقبال'}
-];
-
-// section separators after item index
-const SEPS_AFTER = [5, 7, 9];
+const SB_URL = 'https://blwqssdudrrqgnfqposw.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3Fzc2R1ZHJycWduZnFwb3N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTg1NjcsImV4cCI6MjA5MTMzNDU2N30.EgpT-Es41_5XpyX46fmkJkZLZ8xTl18APCltIjvFGWI';
+const SB_HDR = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` };
 
 const TITLES = {
   tr: ['MİNİ BAR', 'Ücret Tarifesi'],
   en: ['MINI BAR', 'Price List'],
   ar: ['الميني بار', 'قائمة الأسعار']
 };
+const SEPS_AFTER = new Set([5, 7, 9]);
 
-let lang = 'tr';
-let prices = {};
+let lang  = 'tr';
+let items = [];   // {key, tr, en, ar, trSub?, enSub?, arSub?, sort_order}
+let prices = {};  // key → price
 
-async function fetchPrices() {
+/* ── Veri yükle ── */
+async function init() {
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/prices?select=key,price`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    const data = await res.json();
+    const [iRes, pRes] = await Promise.all([
+      fetch(`${SB_URL}/rest/v1/minibar_items?select=*&order=sort_order.asc`, { headers: SB_HDR }),
+      fetch(`${SB_URL}/rest/v1/prices?select=key,price`, { headers: SB_HDR })
+    ]);
+    items  = await iRes.json();
+    const pd = await pRes.json();
     prices = {};
-    data.forEach(row => { prices[row.key] = row.price; });
+    pd.forEach(r => { prices[r.key] = r.price; });
   } catch(e) {
-    console.error('Fiyat yükleme hatası:', e);
+    console.error('Yükleme hatası:', e);
+    // Supabase items tablosu yoksa mevcut sabit liste ile devam et
+    items = FALLBACK_ITEMS;
   }
   document.getElementById('loading').style.display = 'none';
   renderItems();
 }
 
-async function savePrices(updates) {
-  const promises = updates.map(({key, price}) =>
-    fetch(`${SUPABASE_URL}/rest/v1/prices?key=eq.${key}`, {
-      method: 'PATCH',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({ price })
-    })
-  );
-  await Promise.all(promises);
-}
+/* Supabase'de minibar_items tablosu henüz yoksa kullanılır */
+const FALLBACK_ITEMS = [
+  {key:'coca',   tr:'Coca-Cola',          en:'Coca-Cola',         ar:'كوكا كولا',    sort_order:0},
+  {key:'fanta',  tr:'Fanta',              en:'Fanta',             ar:'فانتا',         sort_order:1},
+  {key:'sprite', tr:'Sprite',             en:'Sprite',            ar:'سبرايت',        sort_order:2},
+  {key:'meyveK', tr:'Meyve Suyu Karışık',en:'Mixed Fruit Juice', ar:'عصير فواكه مشكل',sort_order:3},
+  {key:'meyveV', tr:'Meyve Suyu Vişne',  en:'Sour Cherry Juice', ar:'عصير كرز حامض', sort_order:4},
+  {key:'enerji', tr:'Enerji İçeceği',    en:'Energy Drink',      ar:'مشروب طاقة',    sort_order:5},
+  {key:'ciko',   tr:'Çikolata',          en:'Chocolate',         ar:'شوكولاتة',       sort_order:6},
+  {key:'cerez',  tr:'Karışık Çerez',     en:'Mixed Nuts',        ar:'مكسرات مشكلة',  sort_order:7},
+  {key:'sodaS',  tr:'Soda Sade',         en:'Plain Soda',        ar:'صودا سادة',      sort_order:8},
+  {key:'sodaM',  tr:'Soda Meyveli',      en:'Fruity Soda',       ar:'صودا بالفاكهة', sort_order:9},
+  {key:'meyveT', tr:'Meyve Tabağı',      en:'Fruit Plate',       ar:'طبق فواكه',
+   trSub:'Resepsiyondan talep ediniz', enSub:'Request from reception', arSub:'اطلب من الاستقبال', sort_order:10}
+];
 
 function setLang(l) {
   lang = l;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
-
-  const t = document.getElementById('menu-title');
-  const s = document.getElementById('menu-subtitle');
-  t.textContent = TITLES[l][0];
-  s.textContent = TITLES[l][1];
-  t.className = 'menu-title' + (l === 'ar' ? ' ar' : '');
+  document.getElementById('menu-title').textContent   = TITLES[l][0];
+  document.getElementById('menu-subtitle').textContent = TITLES[l][1];
+  document.getElementById('menu-title').className = 'menu-title' + (l === 'ar' ? ' ar' : '');
 
   const wrap = document.getElementById('items-wrap');
   wrap.classList.add('fade-out');
-  setTimeout(() => {
-    renderItems();
-    wrap.classList.remove('fade-out');
-    wrap.classList.add('fade-in');
-  }, 150);
+  setTimeout(() => { renderItems(); wrap.classList.remove('fade-out'); wrap.classList.add('fade-in'); }, 150);
 }
 
 function renderItems() {
   const wrap = document.getElementById('items-wrap');
   wrap.innerHTML = '';
-  ITEMS.forEach((item, idx) => {
+  items.forEach((item, idx) => {
     const name = item[lang] || item.tr;
     const sub  = item[lang + 'Sub'] || '';
     const p    = prices[item.key];
@@ -594,7 +328,7 @@ function renderItems() {
 
     const row = document.createElement('div');
     row.className = 'menu-row' + (lang === 'ar' ? ' ar' : '');
-    row.style.animationDelay = (idx * 30) + 'ms';
+    row.style.animationDelay = (idx * 28) + 'ms';
 
     const nameEl = document.createElement('div');
     nameEl.className = 'item-name' + (lang === 'ar' ? ' ar' : '');
@@ -606,17 +340,14 @@ function renderItems() {
     const box = document.createElement('div');
     box.className = 'price-box' + (has ? '' : ' empty');
     if (has) {
-      const v    = parseFloat(p);
-      const disp = Number.isInteger(v) ? v : v.toFixed(2);
-      box.innerHTML = `<span class="price-val">${disp}<span class="price-tl"> ₺</span></span>`;
+      const v = parseFloat(p);
+      box.innerHTML = `<span class="price-val">${Number.isInteger(v) ? v : v.toFixed(2)}<span class="price-tl"> ₺</span></span>`;
     }
 
-    row.appendChild(nameEl);
-    row.appendChild(dotsEl);
-    row.appendChild(box);
+    row.append(nameEl, dotsEl, box);
     wrap.appendChild(row);
 
-    if (SEPS_AFTER.includes(idx)) {
+    if (SEPS_AFTER.has(idx)) {
       const sep = document.createElement('div');
       sep.className = 'section-sep';
       sep.innerHTML = '<div class="section-sep-line"></div><div class="section-sep-dot"></div><div class="section-sep-line"></div>';
@@ -625,68 +356,7 @@ function renderItems() {
   });
 }
 
-function renderAdmin() {
-  const grid = document.getElementById('admin-grid');
-  grid.innerHTML = '';
-  ITEMS.forEach((item, i) => {
-    const lbl = document.createElement('div');
-    lbl.className = 'admin-label';
-    lbl.textContent = item.tr;
-
-    const inp = document.createElement('input');
-    inp.className = 'admin-input';
-    inp.type = 'number'; inp.min = '0'; inp.step = '1';
-    inp.placeholder = '₺'; inp.dataset.key = item.key;
-    const p = prices[item.key];
-    if (p !== null && p !== undefined) inp.value = p;
-
-    grid.appendChild(lbl);
-    grid.appendChild(inp);
-
-    if (SEPS_AFTER.includes(i)) {
-      const sep = document.createElement('div');
-      sep.className = 'admin-sep';
-      grid.appendChild(sep);
-    }
-  });
-}
-
-function toggleAdmin() {
-  const panel = document.getElementById('admin-panel');
-  const open  = panel.classList.toggle('open');
-  if (open) renderAdmin();
-}
-
-async function saveAll() {
-  const btn = document.getElementById('save-btn');
-  const ok  = document.getElementById('save-ok');
-  const err = document.getElementById('save-err');
-  btn.disabled = true;
-  btn.textContent = 'Kaydediliyor…';
-  err.style.display = 'none';
-
-  const updates = [];
-  document.querySelectorAll('.admin-input').forEach(inp => {
-    const v     = inp.value.trim();
-    const price = v === '' || isNaN(parseFloat(v)) ? null : parseFloat(v);
-    prices[inp.dataset.key] = price;
-    updates.push({ key: inp.dataset.key, price });
-  });
-
-  try {
-    await savePrices(updates);
-    renderItems();
-    ok.classList.add('show');
-    setTimeout(() => ok.classList.remove('show'), 2500);
-  } catch(e) {
-    err.style.display = 'block';
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Kaydet';
-}
-
-fetchPrices();
+init();
 </script>
 </body>
 </html>
