@@ -271,20 +271,23 @@ let prices = {};  // key → price
 
 /* ── Veri yükle ── */
 async function init() {
+  // Ürünleri yükle
   try {
-    const [iRes, pRes] = await Promise.all([
-      fetch(`${SB_URL}/rest/v1/minibar_items?select=*&order=sort_order.asc`, { headers: SB_HDR }),
-      fetch(`${SB_URL}/rest/v1/prices?select=key,price`, { headers: SB_HDR })
-    ]);
-    items  = await iRes.json();
-    const pd = await pRes.json();
-    prices = {};
-    pd.forEach(r => { prices[r.key] = r.price; });
+    const iRes = await fetch(`${SB_URL}/rest/v1/minibar_items?select=*&order=sort_order.asc`, { headers: SB_HDR });
+    const iData = await iRes.json();
+    items = (iRes.ok && Array.isArray(iData)) ? iData : FALLBACK_ITEMS;
   } catch(e) {
-    console.error('Yükleme hatası:', e);
-    // Supabase items tablosu yoksa mevcut sabit liste ile devam et
     items = FALLBACK_ITEMS;
   }
+  // Fiyatları ayrı yükle (prices tablosu mevcut)
+  try {
+    const pRes = await fetch(`${SB_URL}/rest/v1/prices?select=key,price`, { headers: SB_HDR });
+    if (pRes.ok) {
+      const pd = await pRes.json();
+      prices = {};
+      pd.forEach(r => { prices[r.key] = r.price; });
+    }
+  } catch(e) { console.error('Fiyat yükleme hatası:', e); }
   document.getElementById('loading').style.display = 'none';
   renderItems();
 }
