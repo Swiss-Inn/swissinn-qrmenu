@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Swiss Inn Mardin – Mini Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #c8b89a;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 12px 48px;
+  font-family: 'Montserrat', sans-serif;
+}
+.lang-bar { display: flex; gap: 6px; margin-bottom: 16px; }
+.lang-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  padding: 5px 14px; border: 1.5px solid #5c4a2a; border-radius: 20px;
+  background: transparent; color: #5c4a2a; cursor: pointer; transition: all 0.18s;
+}
+.lang-btn.active { background: #5c4a2a; color: #f5ead0; }
+.paper {
+  width: 100%; max-width: 420px;
+  background: #f5ead0;
+  border-radius: 12px;
+  border: 2.5px solid #1a1a1a;
+  padding: 28px 28px 24px;
+  position: relative;
+  box-shadow: 2px 4px 28px rgba(0,0,0,0.25), 0 0 0 5px #dece9e, 0 0 0 6.5px #1a1a1a;
+}
+.paper::before {
+  content: '';
+  position: absolute; inset: 7px;
+  border: 1px solid #1a1a1a;
+  border-radius: 6px; pointer-events: none;
+}
+.menu-title {
+  text-align: center;
+  font-family: 'IM Fell English', serif;
+  font-size: 17px; font-weight: 400;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: #1a1a1a;
+  text-decoration: underline; text-underline-offset: 4px;
+  margin-bottom: 26px; position: relative; z-index: 1;
+}
+.menu-title.ar { direction: rtl; font-size: 17px; letter-spacing: 0; }
+.menu-row {
+  display: flex; align-items: flex-end;
+  margin-bottom: 12px; gap: 5px;
+  position: relative; z-index: 1;
+}
+.menu-row.ar { flex-direction: row-reverse; }
+.item-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  color: #1a1a1a; white-space: nowrap; line-height: 1.5;
+}
+.item-name.ar { direction: rtl; text-transform: none; font-size: 12px; letter-spacing: 0; }
+.item-sub {
+  display: block;
+  font-family: 'IM Fell English', serif;
+  font-style: italic; font-size: 10px;
+  color: #555; letter-spacing: 0; text-transform: none;
+}
+.item-sub.ar { direction: rtl; }
+.dots { flex: 1; border-bottom: 1.5px dotted #999; margin-bottom: 4px; min-width: 8px; }
+.price-box {
+  border: 1.5px solid #1a1a1a; border-radius: 5px;
+  min-width: 72px; height: 26px;
+  background: #f5ead0;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden;
+}
+.price-val {
+  font-family: 'IM Fell English', serif;
+  font-size: 13px; color: #1a1a1a; padding: 0 6px; white-space: nowrap;
+}
+.price-tl { font-size: 10px; color: #666; font-family: 'Montserrat', sans-serif; }
+.logo-area {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-top: 26px; padding-top: 14px;
+  border-top: 1px solid #aaa; position: relative; z-index: 1;
+}
+.logo-svg { width: 54px; height: 54px; flex-shrink: 0; }
+.logo-text { line-height: 1.1; }
+.brand { font-family: Arial, sans-serif; font-size: 28px; font-weight: 900; color: #1a1a1a; display: block; }
+.tagline { font-family: Arial, sans-serif; font-size: 9px; letter-spacing: 2.5px; color: #333; text-transform: uppercase; display: block; margin-top: 1px; }
+.tagline .mardin { color: #cc2222; font-style: italic; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
+
+/* loading */
+.loading-bar {
+  text-align: center; font-size: 11px; color: #888;
+  font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
+  margin-bottom: 12px; position: relative; z-index: 1;
+}
+
+/* admin */
+.admin-wrap { width: 100%; max-width: 420px; margin-top: 14px; }
+.admin-toggle {
+  display: block; width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  padding: 8px 0; background: rgba(92,74,42,0.1);
+  border: 1px solid rgba(92,74,42,0.35); border-radius: 6px;
+  color: #5c4a2a; cursor: pointer; text-align: center; transition: all 0.18s;
+}
+.admin-toggle:hover { background: rgba(92,74,42,0.18); }
+.admin-panel {
+  display: none; background: #edddb8;
+  border: 1.5px solid #1a1a1a; border-radius: 10px;
+  padding: 20px; margin-top: 10px;
+}
+.admin-panel.open { display: block; }
+.admin-title {
+  font-family: 'IM Fell English', serif; font-size: 16px; color: #1a1a1a;
+  margin-bottom: 14px; border-bottom: 1px solid #bba870; padding-bottom: 8px;
+}
+.admin-grid { display: grid; grid-template-columns: 1fr 110px; gap: 7px 10px; align-items: center; }
+.admin-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: #3a2e18;
+}
+.admin-input {
+  width: 100%; background: #f5ead0; border: 1.5px solid #8a7040; border-radius: 5px;
+  color: #1a1a1a; font-family: 'IM Fell English', serif; font-size: 14px;
+  text-align: right; padding: 4px 8px; outline: none; transition: border-color 0.15s;
+}
+.admin-input:focus { border-color: #1a1a1a; }
+.admin-input::placeholder { color: #bbb; font-size: 10px; font-family: 'Montserrat', sans-serif; }
+.admin-sep { grid-column: 1/-1; height: 1px; background: #c8ad7a; margin: 3px 0; }
+.save-btn {
+  margin-top: 14px; width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  padding: 10px; background: #1a1a1a; color: #f5ead0;
+  border: none; border-radius: 5px; cursor: pointer; transition: background 0.18s;
+}
+.save-btn:hover { background: #333; }
+.save-btn:disabled { background: #888; cursor: not-allowed; }
+.save-ok {
+  text-align: center; font-size: 11px; color: #2a6e2a;
+  font-family: 'Montserrat', sans-serif; margin-top: 8px;
+  letter-spacing: 1px; opacity: 0; transition: opacity 0.3s;
+}
+.save-ok.show { opacity: 1; }
+.save-err {
+  text-align: center; font-size: 11px; color: #c0392b;
+  font-family: 'Montserrat', sans-serif; margin-top: 8px;
+  letter-spacing: 1px; display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <button class="lang-btn active" data-lang="tr" onclick="setLang('tr')">TR</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">AR</button>
+</div>
+
+<div class="paper">
+  <div class="menu-title" id="menu-title">MİNİ BAR ÜCRET TARİFESİ</div>
+  <div class="loading-bar" id="loading">Yükleniyor...</div>
+  <div id="items-wrap"></div>
+
+  <div class="logo-area">
+    <svg class="logo-svg" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="28" fill="#cc2222"/>
+      <path d="M7 18 Q12 8 22 6 Q26 5 28 8 L28 28 Q20 24 12 28 Q8 24 7 18Z" fill="white"/>
+      <path d="M49 38 Q44 48 34 50 Q30 51 28 48 L28 28 Q36 32 44 28 Q48 32 49 38Z" fill="white"/>
+    </svg>
+    <div class="logo-text">
+      <span class="brand">Swiss Inn</span>
+      <span class="tagline">Autantic Collection <span class="mardin">MARDİN</span></span>
+    </div>
+  </div>
+</div>
+
+<div class="admin-wrap">
+  <button class="admin-toggle" onclick="toggleAdmin()">⚙ Fiyat Yönetimi</button>
+  <div class="admin-panel" id="admin-panel">
+    <div class="admin-title">Fiyat Girişi</div>
+    <div class="admin-grid" id="admin-grid"></div>
+    <button class="save-btn" id="save-btn" onclick="saveAll()">Kaydet</button>
+    <div class="save-ok" id="save-ok">✓ Fiyatlar kaydedildi</div>
+    <div class="save-err" id="save-err">✗ Hata oluştu, tekrar dene</div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://blwqssdudrrqgnfqposw.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3Fzc2R1ZHJycWduZnFwb3N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTg1NjcsImV4cCI6MjA5MTMzNDU2N30.EgpT-Es41_5XpyX46fmkJkZLZ8xTl18APCltIjvFGWI';
+
+const ITEMS = [
+  {key:'coca',   tr:'COCA-COLA',                   en:'COCA-COLA',            ar:'كوكا كولا'},
+  {key:'fanta',  tr:'FANTA',                        en:'FANTA',                ar:'فانتا'},
+  {key:'sprite', tr:'SPRITE',                       en:'SPRITE',               ar:'سبرايت'},
+  {key:'meyveK', tr:'MEYVE SUYU KARIŞIK-KARIŞIK',  en:'MIXED FRUIT JUICE',    ar:'عصير فواكه مشكل'},
+  {key:'meyveV', tr:'MEYVE SUYU VİŞNE',            en:'SOUR CHERRY JUICE',    ar:'عصير كرز حامض'},
+  {key:'enerji', tr:'ENERJİ İÇECEĞİ',              en:'ENERGY DRINK',         ar:'مشروب طاقة'},
+  {key:'ciko',   tr:'ÇİKOLATA',                    en:'CHOCOLATE',            ar:'شوكولاتة'},
+  {key:'cerez',  tr:'KARIŞIK ÇEREZ',               en:'MIXED NUTS',           ar:'مكسرات مشكلة'},
+  {key:'sodaS',  tr:'SODA SADE',                   en:'PLAIN SODA',           ar:'صودا سادة'},
+  {key:'sodaM',  tr:'SODA MEYVELİ',               en:'FRUITY SODA',          ar:'صودا بالفاكهة'},
+  {key:'meyveT', tr:'MEYVE TABAĞI',               en:'FRUIT PLATE',          ar:'طبق فواكه',
+   trSub:'(Resepsiyondan talep ediniz)', enSub:'(Request from reception)', arSub:'(اطلب من الاستقبال)'}
+];
+
+const TITLES = {tr:'MİNİ BAR ÜCRET TARİFESİ', en:'MINI BAR PRICE LIST', ar:'قائمة أسعار الميني بار'};
+let lang = 'tr';
+let prices = {};
+
+async function fetchPrices() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/prices?select=key,price`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
+    });
+    const data = await res.json();
+    prices = {};
+    data.forEach(row => { prices[row.key] = row.price; });
+  } catch(e) {
+    console.error(e);
+  }
+  document.getElementById('loading').style.display = 'none';
+  renderItems();
+}
+
+async function savePrices(updates) {
+  const promises = updates.map(({key, price}) =>
+    fetch(`${SUPABASE_URL}/rest/v1/prices?key=eq.${key}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ price: price })
+    })
+  );
+  await Promise.all(promises);
+}
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  const t = document.getElementById('menu-title');
+  t.textContent = TITLES[l];
+  t.className = 'menu-title' + (l === 'ar' ? ' ar' : l === 'en' ? ' en' : '');
+  renderItems();
+}
+
+function renderItems() {
+  const wrap = document.getElementById('items-wrap');
+  wrap.innerHTML = '';
+  ITEMS.forEach(item => {
+    const name = item[lang] || item.tr;
+    const sub = item[lang + 'Sub'] || '';
+    const p = prices[item.key];
+    const has = p !== null && p !== undefined && p !== '';
+
+    const row = document.createElement('div');
+    row.className = 'menu-row' + (lang === 'ar' ? ' ar' : '');
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'item-name' + (lang === 'ar' ? ' ar' : '');
+    nameEl.innerHTML = name + (sub ? `<span class="item-sub${lang==='ar'?' ar':''}">${sub}</span>` : '');
+
+    const dotsEl = document.createElement('div');
+    dotsEl.className = 'dots';
+
+    const box = document.createElement('div');
+    box.className = 'price-box';
+    if (has) {
+      const v = parseFloat(p);
+      const disp = Number.isInteger(v) ? v : v.toFixed(2);
+      box.innerHTML = `<span class="price-val">${disp}<span class="price-tl"> ₺</span></span>`;
+    }
+
+    row.appendChild(nameEl);
+    row.appendChild(dotsEl);
+    row.appendChild(box);
+    wrap.appendChild(row);
+  });
+}
+
+function renderAdmin() {
+  const grid = document.getElementById('admin-grid');
+  grid.innerHTML = '';
+  ITEMS.forEach((item, i) => {
+    const lbl = document.createElement('div');
+    lbl.className = 'admin-label';
+    lbl.textContent = item.tr;
+
+    const inp = document.createElement('input');
+    inp.className = 'admin-input';
+    inp.type = 'number'; inp.min = '0'; inp.step = '1';
+    inp.placeholder = '₺ fiyat'; inp.dataset.key = item.key;
+    const p = prices[item.key];
+    if (p !== null && p !== undefined) inp.value = p;
+
+    grid.appendChild(lbl);
+    grid.appendChild(inp);
+    if (i === 5 || i === 7 || i === 9) {
+      const sep = document.createElement('div');
+      sep.className = 'admin-sep';
+      grid.appendChild(sep);
+    }
+  });
+}
+
+function toggleAdmin() {
+  const panel = document.getElementById('admin-panel');
+  const open = panel.classList.toggle('open');
+  if (open) renderAdmin();
+}
+
+async function saveAll() {
+  const btn = document.getElementById('save-btn');
+  const ok = document.getElementById('save-ok');
+  const err = document.getElementById('save-err');
+  btn.disabled = true;
+  btn.textContent = 'Kaydediliyor...';
+  err.style.display = 'none';
+
+  const updates = [];
+  document.querySelectorAll('.admin-input').forEach(inp => {
+    const v = inp.value.trim();
+    const price = v === '' || isNaN(parseFloat(v)) ? null : parseFloat(v);
+    prices[inp.dataset.key] = price;
+    updates.push({ key: inp.dataset.key, price });
+  });
+
+  try {
+    await savePrices(updates);
+    renderItems();
+    ok.classList.add('show');
+    setTimeout(() => ok.classList.remove('show'), 2500);
+  } catch(e) {
+    err.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Kaydet';
+}
+
+fetchPrices();
+</script>
+</body>
+</html>
