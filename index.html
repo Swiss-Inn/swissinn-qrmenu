@@ -5,153 +5,400 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Swiss Inn Mardin – Mini Bar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+SC:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+:root {
+  --paper:    #f2e8d0;
+  --paper2:   #ede0c4;
+  --ink:      #1c1510;
+  --ink2:     #3d3020;
+  --ink3:     #6b5a3e;
+  --gold:     #8a6e35;
+  --gold2:    #c9a84c;
+  --red:      #8c1a1a;
+  --bg:       #b5a07a;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-  background: #c8b89a;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, #a08050 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, #7a6040 0%, transparent 60%);
   min-height: 100vh;
   display: flex; flex-direction: column; align-items: center;
-  padding: 24px 12px 48px;
-  font-family: 'Montserrat', sans-serif;
+  padding: 32px 16px 56px;
+  font-family: 'Jost', sans-serif;
 }
-.lang-bar { display: flex; gap: 6px; margin-bottom: 16px; }
+
+/* ─── Language Bar ─── */
+.lang-bar {
+  display: flex; gap: 4px; margin-bottom: 20px;
+  background: rgba(28,21,16,0.18);
+  padding: 4px; border-radius: 30px;
+  backdrop-filter: blur(4px);
+}
 .lang-btn {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-  padding: 5px 14px; border: 1.5px solid #5c4a2a; border-radius: 20px;
-  background: transparent; color: #5c4a2a; cursor: pointer; transition: all 0.18s;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 6px 18px; border: none; border-radius: 22px;
+  background: transparent; color: rgba(242,232,208,0.75); cursor: pointer;
+  transition: all 0.22s ease;
 }
-.lang-btn.active { background: #5c4a2a; color: #f5ead0; }
-.paper {
-  width: 100%; max-width: 420px;
-  background: #f5ead0;
-  border-radius: 12px;
-  border: 2.5px solid #1a1a1a;
-  padding: 28px 28px 24px;
+.lang-btn.active {
+  background: var(--paper);
+  color: var(--ink2);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+/* ─── Paper ─── */
+.paper-wrap {
   position: relative;
-  box-shadow: 2px 4px 28px rgba(0,0,0,0.25), 0 0 0 5px #dece9e, 0 0 0 6.5px #1a1a1a;
+  width: 100%; max-width: 430px;
+  filter: drop-shadow(0 8px 40px rgba(0,0,0,0.38)) drop-shadow(0 2px 6px rgba(0,0,0,0.22));
 }
+
+/* Kağıt kırışması — hafif köşe kıvrımı */
+.paper-wrap::after {
+  content: '';
+  position: absolute; bottom: -4px; right: -4px;
+  width: 40px; height: 40px;
+  background: linear-gradient(225deg, var(--bg) 46%, rgba(180,156,108,0.4) 46%, transparent 66%);
+  border-radius: 0 0 4px 0;
+  pointer-events: none; z-index: 10;
+}
+
+.paper {
+  position: relative;
+  background: var(--paper);
+  border-radius: 4px 4px 0 4px;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* SVG Noise texture overlay */
 .paper::before {
   content: '';
-  position: absolute; inset: 7px;
-  border: 1px solid #1a1a1a;
-  border-radius: 6px; pointer-events: none;
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none; z-index: 0; opacity: 0.6;
 }
-.menu-title {
+
+/* ─── Çift çerçeve sistemi ─── */
+.frame-outer {
+  position: relative;
+  border: 1.5px solid var(--ink);
+  margin: 8px;
+  border-radius: 2px;
+  z-index: 1;
+}
+.frame-inner {
+  border: 0.75px solid var(--ink3);
+  margin: 5px;
+  padding: 22px 22px 18px;
+  position: relative;
+}
+
+/* Köşe süslemeleri */
+.frame-inner::before,
+.frame-inner::after,
+.frame-outer::before,
+.frame-outer::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+}
+.frame-outer::before { top: -3px; left: -3px; border-top: 2.5px solid var(--gold); border-left: 2.5px solid var(--gold); }
+.frame-outer::after  { top: -3px; right: -3px; border-top: 2.5px solid var(--gold); border-right: 2.5px solid var(--gold); }
+.frame-inner::before { bottom: -3px; left: -3px; border-bottom: 2.5px solid var(--gold); border-left: 2.5px solid var(--gold); }
+.frame-inner::after  { bottom: -3px; right: -3px; border-bottom: 2.5px solid var(--gold); border-right: 2.5px solid var(--gold); }
+
+/* Sarı sararmış köşe lekeleri */
+.paper-stain {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+  background: radial-gradient(circle, #8a6e35, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.stain-tl { width: 80px; height: 80px; top: -20px; left: -20px; }
+.stain-br { width: 60px; height: 60px; bottom: -15px; right: -15px; opacity: 0.08; }
+
+/* ─── Başlık ─── */
+.header-wrap {
   text-align: center;
-  font-family: 'IM Fell English', serif;
-  font-size: 17px; font-weight: 400;
-  letter-spacing: 1px; text-transform: uppercase;
-  color: #1a1a1a;
-  text-decoration: underline; text-underline-offset: 4px;
-  margin-bottom: 26px; position: relative; z-index: 1;
+  margin-bottom: 6px;
+  position: relative;
 }
-.menu-title.ar { direction: rtl; font-size: 17px; letter-spacing: 0; }
+.hotel-name {
+  font-family: 'Cormorant SC', serif;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--ink3);
+  display: block; margin-bottom: 8px;
+}
+
+.ornament {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 auto 10px;
+}
+.ornament-line {
+  flex: 1; height: 0.75px;
+  background: linear-gradient(to right, transparent, var(--gold2), transparent);
+}
+.ornament-diamond {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg); flex-shrink: 0;
+}
+.ornament-sm { width: 3px; height: 3px; flex-shrink: 0; background: var(--gold2); transform: rotate(45deg); }
+
+.menu-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: 18px; font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--ink);
+  line-height: 1.2;
+  display: block; margin-bottom: 4px;
+}
+.menu-title.ar { font-family: 'Cormorant Garamond', serif; direction: rtl; letter-spacing: 0; font-size: 17px; }
+.menu-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 11px; color: var(--ink3);
+  letter-spacing: 1px; display: block;
+}
+
+/* ─── Divider ─── */
+.divider {
+  display: flex; align-items: center; gap: 6px;
+  margin: 14px 0 16px;
+}
+.div-line { flex: 1; height: 0.75px; background: linear-gradient(to right, transparent, var(--ink3), transparent); }
+.div-center {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 13px; color: var(--ink3);
+  letter-spacing: 0.5px;
+}
+
+/* ─── Menu Items ─── */
+.loading-bar {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 12px;
+  color: var(--ink3); letter-spacing: 1px;
+  margin: 10px 0;
+}
+
+#items-wrap { display: flex; flex-direction: column; gap: 1px; }
+
 .menu-row {
   display: flex; align-items: flex-end;
-  margin-bottom: 12px; gap: 5px;
-  position: relative; z-index: 1;
+  gap: 6px; padding: 5px 0;
+  border-bottom: 0.5px solid rgba(107,90,62,0.18);
+  opacity: 0;
+  animation: fadeRow 0.3s ease forwards;
 }
+.menu-row:last-child { border-bottom: none; }
 .menu-row.ar { flex-direction: row-reverse; }
-.item-name {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.5px; text-transform: uppercase;
-  color: #1a1a1a; white-space: nowrap; line-height: 1.5;
+
+@keyframes fadeRow {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.item-name.ar { direction: rtl; text-transform: none; font-size: 12px; letter-spacing: 0; }
+
+.item-name {
+  font-family: 'Cormorant SC', serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--ink2); white-space: nowrap;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+.item-name.ar {
+  font-family: 'Cormorant Garamond', serif;
+  direction: rtl; text-transform: none;
+  font-size: 12.5px; letter-spacing: 0;
+}
 .item-sub {
   display: block;
-  font-family: 'IM Fell English', serif;
-  font-style: italic; font-size: 10px;
-  color: #555; letter-spacing: 0; text-transform: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 9.5px;
+  color: var(--ink3); letter-spacing: 0;
+  text-transform: none; font-weight: 400;
+  margin-top: 1px;
 }
 .item-sub.ar { direction: rtl; }
-.dots { flex: 1; border-bottom: 1.5px dotted #999; margin-bottom: 4px; min-width: 8px; }
+
+.dots {
+  flex: 1;
+  border-bottom: 1px dotted rgba(107,90,62,0.4);
+  margin-bottom: 6px;
+  min-width: 8px;
+}
+
+/* ─── Fiyat Kutusu ─── */
 .price-box {
-  border: 1.5px solid #1a1a1a; border-radius: 5px;
-  min-width: 72px; height: 26px;
-  background: #f5ead0;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  min-width: 68px; height: 24px;
+  background: var(--paper);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; overflow: hidden;
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+/* İç gölge — mürekkep baskı hissi */
+.price-box::before {
+  content: '';
+  position: absolute; inset: 0;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+  pointer-events: none;
 }
 .price-val {
-  font-family: 'IM Fell English', serif;
-  font-size: 13px; color: #1a1a1a; padding: 0 6px; white-space: nowrap;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--ink); padding: 0 6px; white-space: nowrap;
 }
-.price-tl { font-size: 10px; color: #666; font-family: 'Montserrat', sans-serif; }
+.price-tl {
+  font-size: 9px; color: var(--ink3);
+  font-family: 'Jost', sans-serif;
+  font-weight: 400; margin-left: 1px;
+}
+/* Boş kutu — virgül efekti */
+.price-box.empty::after {
+  content: '—';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px; color: rgba(107,90,62,0.35);
+}
+
+/* ─── Section Separator ─── */
+.section-sep {
+  display: flex; align-items: center; gap: 8px;
+  margin: 8px 0;
+}
+.section-sep-line { flex: 1; height: 0.5px; background: var(--gold2); opacity: 0.5; }
+.section-sep-dot { width: 4px; height: 4px; background: var(--gold2); transform: rotate(45deg); opacity: 0.6; }
+
+/* ─── Logo / Footer ─── */
 .logo-area {
   display: flex; align-items: center; justify-content: center;
-  gap: 10px; margin-top: 26px; padding-top: 14px;
-  border-top: 1px solid #aaa; position: relative; z-index: 1;
+  gap: 12px; margin-top: 18px; padding-top: 14px;
+  border-top: 0.75px solid var(--ink3);
+  position: relative;
 }
-.logo-svg { width: 54px; height: 54px; flex-shrink: 0; }
-.logo-text { line-height: 1.1; }
-.brand { font-family: Arial, sans-serif; font-size: 28px; font-weight: 900; color: #1a1a1a; display: block; }
-.tagline { font-family: Arial, sans-serif; font-size: 9px; letter-spacing: 2.5px; color: #333; text-transform: uppercase; display: block; margin-top: 1px; }
-.tagline .mardin { color: #cc2222; font-style: italic; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
-
-/* loading */
-.loading-bar {
-  text-align: center; font-size: 11px; color: #888;
-  font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
-  margin-bottom: 12px; position: relative; z-index: 1;
+.logo-area::before {
+  content: '';
+  position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 1px; background: var(--gold2); opacity: 0.6;
 }
 
-/* admin */
-.admin-wrap { width: 100%; max-width: 420px; margin-top: 14px; }
+.logo-svg { width: 48px; height: 48px; flex-shrink: 0; }
+
+.logo-text { line-height: 1.15; }
+.brand {
+  font-family: 'Cormorant SC', serif;
+  font-size: 24px; font-weight: 700;
+  color: var(--ink); display: block; letter-spacing: 1px;
+}
+.tagline {
+  font-family: 'Jost', sans-serif;
+  font-size: 7.5px; letter-spacing: 3px; color: var(--ink3);
+  text-transform: uppercase; display: block; margin-top: 2px;
+}
+.tagline .mardin {
+  color: var(--red); font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+}
+
+/* ─── Admin ─── */
+.admin-wrap { width: 100%; max-width: 430px; margin-top: 16px; }
+
 .admin-toggle {
   display: block; width: 100%;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-  padding: 8px 0; background: rgba(92,74,42,0.1);
-  border: 1px solid rgba(92,74,42,0.35); border-radius: 6px;
-  color: #5c4a2a; cursor: pointer; text-align: center; transition: all 0.18s;
+  font-family: 'Jost', sans-serif;
+  font-size: 9px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 9px 0;
+  background: rgba(28,21,16,0.12);
+  border: 1px solid rgba(28,21,16,0.25); border-radius: 4px;
+  color: rgba(242,232,208,0.8); cursor: pointer;
+  text-align: center; transition: all 0.2s;
 }
-.admin-toggle:hover { background: rgba(92,74,42,0.18); }
+.admin-toggle:hover { background: rgba(28,21,16,0.22); color: var(--paper); }
+
 .admin-panel {
-  display: none; background: #edddb8;
-  border: 1.5px solid #1a1a1a; border-radius: 10px;
+  display: none;
+  background: var(--paper2);
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
   padding: 20px; margin-top: 10px;
 }
 .admin-panel.open { display: block; }
+
 .admin-title {
-  font-family: 'IM Fell English', serif; font-size: 16px; color: #1a1a1a;
-  margin-bottom: 14px; border-bottom: 1px solid #bba870; padding-bottom: 8px;
+  font-family: 'Cormorant SC', serif;
+  font-size: 15px; font-weight: 600; color: var(--ink);
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 0.75px solid var(--gold2);
+  letter-spacing: 1px;
 }
-.admin-grid { display: grid; grid-template-columns: 1fr 110px; gap: 7px 10px; align-items: center; }
+
+.admin-grid { display: grid; grid-template-columns: 1fr 100px; gap: 6px 10px; align-items: center; }
+
 .admin-label {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: #3a2e18;
+  font-family: 'Jost', sans-serif;
+  font-size: 9.5px; font-weight: 500;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--ink2);
 }
+
 .admin-input {
-  width: 100%; background: #f5ead0; border: 1.5px solid #8a7040; border-radius: 5px;
-  color: #1a1a1a; font-family: 'IM Fell English', serif; font-size: 14px;
-  text-align: right; padding: 4px 8px; outline: none; transition: border-color 0.15s;
+  width: 100%; background: var(--paper);
+  border: 1px solid var(--gold); border-radius: 2px;
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif; font-size: 15px;
+  text-align: right; padding: 4px 8px;
+  outline: none; transition: border-color 0.15s;
 }
-.admin-input:focus { border-color: #1a1a1a; }
-.admin-input::placeholder { color: #bbb; font-size: 10px; font-family: 'Montserrat', sans-serif; }
-.admin-sep { grid-column: 1/-1; height: 1px; background: #c8ad7a; margin: 3px 0; }
+.admin-input:focus { border-color: var(--ink); }
+.admin-input::placeholder { color: #bbb; font-size: 10px; font-family: 'Jost', sans-serif; }
+
+.admin-sep {
+  grid-column: 1/-1; height: 0.75px;
+  background: linear-gradient(to right, transparent, var(--gold2), transparent);
+  margin: 4px 0;
+}
+
 .save-btn {
   margin-top: 14px; width: 100%;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-  padding: 10px; background: #1a1a1a; color: #f5ead0;
-  border: none; border-radius: 5px; cursor: pointer; transition: background 0.18s;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  padding: 11px;
+  background: var(--ink); color: var(--paper);
+  border: none; border-radius: 2px; cursor: pointer; transition: background 0.18s;
 }
-.save-btn:hover { background: #333; }
+.save-btn:hover { background: #2c2318; }
 .save-btn:disabled { background: #888; cursor: not-allowed; }
+
 .save-ok {
   text-align: center; font-size: 11px; color: #2a6e2a;
-  font-family: 'Montserrat', sans-serif; margin-top: 8px;
+  font-family: 'Jost', sans-serif; margin-top: 8px;
   letter-spacing: 1px; opacity: 0; transition: opacity 0.3s;
 }
 .save-ok.show { opacity: 1; }
 .save-err {
   text-align: center; font-size: 11px; color: #c0392b;
-  font-family: 'Montserrat', sans-serif; margin-top: 8px;
+  font-family: 'Jost', sans-serif; margin-top: 8px;
   letter-spacing: 1px; display: none;
+}
+
+/* ─── Geçiş animasyonu ─── */
+.fade-out { opacity: 0; transition: opacity 0.15s; }
+.fade-in  { opacity: 1; transition: opacity 0.2s; }
+
+/* ─── Mobile ─── */
+@media (max-width: 480px) {
+  .frame-inner { padding: 16px 14px 14px; }
+  .item-name { font-size: 10px; letter-spacing: 1px; }
+  .menu-title { font-size: 15px; }
 }
 </style>
 </head>
@@ -163,26 +410,60 @@ body {
   <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">AR</button>
 </div>
 
-<div class="paper">
-  <div class="menu-title" id="menu-title">MİNİ BAR ÜCRET TARİFESİ</div>
-  <div class="loading-bar" id="loading">Yükleniyor...</div>
-  <div id="items-wrap"></div>
+<div class="paper-wrap">
+  <div class="paper">
+    <!-- Sararmış köşe lekeleri -->
+    <div class="paper-stain stain-tl"></div>
+    <div class="paper-stain stain-br"></div>
 
-  <div class="logo-area">
-    <svg class="logo-svg" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="28" fill="#cc2222"/>
-      <path d="M7 18 Q12 8 22 6 Q26 5 28 8 L28 28 Q20 24 12 28 Q8 24 7 18Z" fill="white"/>
-      <path d="M49 38 Q44 48 34 50 Q30 51 28 48 L28 28 Q36 32 44 28 Q48 32 49 38Z" fill="white"/>
-    </svg>
-    <div class="logo-text">
-      <span class="brand">Swiss Inn</span>
-      <span class="tagline">Autantic Collection <span class="mardin">MARDİN</span></span>
-    </div>
-  </div>
-</div>
+    <div class="frame-outer">
+      <div class="frame-inner">
+
+        <!-- Başlık -->
+        <div class="header-wrap">
+          <span class="hotel-name">Swiss Inn Mardin</span>
+          <div class="ornament">
+            <div class="ornament-line"></div>
+            <div class="ornament-sm"></div>
+            <div class="ornament-diamond"></div>
+            <div class="ornament-sm"></div>
+            <div class="ornament-line"></div>
+          </div>
+          <span class="menu-title" id="menu-title">MİNİ BAR</span>
+          <span class="menu-subtitle" id="menu-subtitle">Ücret Tarifesi</span>
+          <div class="ornament" style="margin-top:10px; margin-bottom:0;">
+            <div class="ornament-line"></div>
+            <div class="ornament-sm"></div>
+            <div class="ornament-diamond"></div>
+            <div class="ornament-sm"></div>
+            <div class="ornament-line"></div>
+          </div>
+        </div>
+
+        <div class="loading-bar" id="loading">Yükleniyor…</div>
+        <div id="items-wrap"></div>
+
+        <!-- Logo -->
+        <div class="logo-area">
+          <svg class="logo-svg" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="27" fill="none" stroke="#8c1a1a" stroke-width="1"/>
+            <circle cx="28" cy="28" r="23" fill="#8c1a1a"/>
+            <path d="M7 18 Q12 8 22 6 Q26 5 28 8 L28 28 Q20 24 12 28 Q8 24 7 18Z" fill="white"/>
+            <path d="M49 38 Q44 48 34 50 Q30 51 28 48 L28 28 Q36 32 44 28 Q48 32 49 38Z" fill="white"/>
+          </svg>
+          <div class="logo-text">
+            <span class="brand">Swiss Inn</span>
+            <span class="tagline">Authentic Collection · <span class="mardin">Mardin</span></span>
+          </div>
+        </div>
+
+      </div><!-- frame-inner -->
+    </div><!-- frame-outer -->
+  </div><!-- paper -->
+</div><!-- paper-wrap -->
 
 <div class="admin-wrap">
-  <button class="admin-toggle" onclick="toggleAdmin()">⚙ Fiyat Yönetimi</button>
+  <button class="admin-toggle" onclick="toggleAdmin()">⚙ &nbsp;Fiyat Yönetimi</button>
   <div class="admin-panel" id="admin-panel">
     <div class="admin-title">Fiyat Girişi</div>
     <div class="admin-grid" id="admin-grid"></div>
@@ -197,37 +478,42 @@ const SUPABASE_URL = 'https://blwqssdudrrqgnfqposw.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3Fzc2R1ZHJycWduZnFwb3N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTg1NjcsImV4cCI6MjA5MTMzNDU2N30.EgpT-Es41_5XpyX46fmkJkZLZ8xTl18APCltIjvFGWI';
 
 const ITEMS = [
-  {key:'coca',   tr:'COCA-COLA',                   en:'COCA-COLA',            ar:'كوكا كولا'},
-  {key:'fanta',  tr:'FANTA',                        en:'FANTA',                ar:'فانتا'},
-  {key:'sprite', tr:'SPRITE',                       en:'SPRITE',               ar:'سبرايت'},
-  {key:'meyveK', tr:'MEYVE SUYU KARIŞIK-KARIŞIK',  en:'MIXED FRUIT JUICE',    ar:'عصير فواكه مشكل'},
-  {key:'meyveV', tr:'MEYVE SUYU VİŞNE',            en:'SOUR CHERRY JUICE',    ar:'عصير كرز حامض'},
-  {key:'enerji', tr:'ENERJİ İÇECEĞİ',              en:'ENERGY DRINK',         ar:'مشروب طاقة'},
-  {key:'ciko',   tr:'ÇİKOLATA',                    en:'CHOCOLATE',            ar:'شوكولاتة'},
-  {key:'cerez',  tr:'KARIŞIK ÇEREZ',               en:'MIXED NUTS',           ar:'مكسرات مشكلة'},
-  {key:'sodaS',  tr:'SODA SADE',                   en:'PLAIN SODA',           ar:'صودا سادة'},
-  {key:'sodaM',  tr:'SODA MEYVELİ',               en:'FRUITY SODA',          ar:'صودا بالفاكهة'},
-  {key:'meyveT', tr:'MEYVE TABAĞI',               en:'FRUIT PLATE',          ar:'طبق فواكه',
-   trSub:'(Resepsiyondan talep ediniz)', enSub:'(Request from reception)', arSub:'(اطلب من الاستقبال)'}
+  {key:'coca',   tr:'Coca-Cola',                  en:'Coca-Cola',            ar:'كوكا كولا'},
+  {key:'fanta',  tr:'Fanta',                       en:'Fanta',                ar:'فانتا'},
+  {key:'sprite', tr:'Sprite',                      en:'Sprite',               ar:'سبرايت'},
+  {key:'meyveK', tr:'Meyve Suyu Karışık',         en:'Mixed Fruit Juice',    ar:'عصير فواكه مشكل'},
+  {key:'meyveV', tr:'Meyve Suyu Vişne',           en:'Sour Cherry Juice',    ar:'عصير كرز حامض'},
+  {key:'enerji', tr:'Enerji İçeceği',             en:'Energy Drink',         ar:'مشروب طاقة'},
+  {key:'ciko',   tr:'Çikolata',                   en:'Chocolate',            ar:'شوكولاتة'},
+  {key:'cerez',  tr:'Karışık Çerez',              en:'Mixed Nuts',           ar:'مكسرات مشكلة'},
+  {key:'sodaS',  tr:'Soda Sade',                  en:'Plain Soda',           ar:'صودا سادة'},
+  {key:'sodaM',  tr:'Soda Meyveli',               en:'Fruity Soda',          ar:'صودا بالفاكهة'},
+  {key:'meyveT', tr:'Meyve Tabağı',              en:'Fruit Plate',          ar:'طبق فواكه',
+   trSub:'Resepsiyondan talep ediniz', enSub:'Request from reception', arSub:'اطلب من الاستقبال'}
 ];
 
-const TITLES = {tr:'MİNİ BAR ÜCRET TARİFESİ', en:'MINI BAR PRICE LIST', ar:'قائمة أسعار الميني بار'};
+// section separators after item index
+const SEPS_AFTER = [5, 7, 9];
+
+const TITLES = {
+  tr: ['MİNİ BAR', 'Ücret Tarifesi'],
+  en: ['MINI BAR', 'Price List'],
+  ar: ['الميني بار', 'قائمة الأسعار']
+};
+
 let lang = 'tr';
 let prices = {};
 
 async function fetchPrices() {
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/prices?select=key,price`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`
-      }
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
     });
     const data = await res.json();
     prices = {};
     data.forEach(row => { prices[row.key] = row.price; });
   } catch(e) {
-    console.error(e);
+    console.error('Fiyat yükleme hatası:', e);
   }
   document.getElementById('loading').style.display = 'none';
   renderItems();
@@ -243,7 +529,7 @@ async function savePrices(updates) {
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
-      body: JSON.stringify({ price: price })
+      body: JSON.stringify({ price })
     })
   );
   await Promise.all(promises);
@@ -252,23 +538,34 @@ async function savePrices(updates) {
 function setLang(l) {
   lang = l;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+
   const t = document.getElementById('menu-title');
-  t.textContent = TITLES[l];
-  t.className = 'menu-title' + (l === 'ar' ? ' ar' : l === 'en' ? ' en' : '');
-  renderItems();
+  const s = document.getElementById('menu-subtitle');
+  t.textContent = TITLES[l][0];
+  s.textContent = TITLES[l][1];
+  t.className = 'menu-title' + (l === 'ar' ? ' ar' : '');
+
+  const wrap = document.getElementById('items-wrap');
+  wrap.classList.add('fade-out');
+  setTimeout(() => {
+    renderItems();
+    wrap.classList.remove('fade-out');
+    wrap.classList.add('fade-in');
+  }, 150);
 }
 
 function renderItems() {
   const wrap = document.getElementById('items-wrap');
   wrap.innerHTML = '';
-  ITEMS.forEach(item => {
+  ITEMS.forEach((item, idx) => {
     const name = item[lang] || item.tr;
-    const sub = item[lang + 'Sub'] || '';
-    const p = prices[item.key];
-    const has = p !== null && p !== undefined && p !== '';
+    const sub  = item[lang + 'Sub'] || '';
+    const p    = prices[item.key];
+    const has  = p !== null && p !== undefined && p !== '';
 
     const row = document.createElement('div');
     row.className = 'menu-row' + (lang === 'ar' ? ' ar' : '');
+    row.style.animationDelay = (idx * 30) + 'ms';
 
     const nameEl = document.createElement('div');
     nameEl.className = 'item-name' + (lang === 'ar' ? ' ar' : '');
@@ -278,9 +575,9 @@ function renderItems() {
     dotsEl.className = 'dots';
 
     const box = document.createElement('div');
-    box.className = 'price-box';
+    box.className = 'price-box' + (has ? '' : ' empty');
     if (has) {
-      const v = parseFloat(p);
+      const v    = parseFloat(p);
       const disp = Number.isInteger(v) ? v : v.toFixed(2);
       box.innerHTML = `<span class="price-val">${disp}<span class="price-tl"> ₺</span></span>`;
     }
@@ -289,6 +586,13 @@ function renderItems() {
     row.appendChild(dotsEl);
     row.appendChild(box);
     wrap.appendChild(row);
+
+    if (SEPS_AFTER.includes(idx)) {
+      const sep = document.createElement('div');
+      sep.className = 'section-sep';
+      sep.innerHTML = '<div class="section-sep-line"></div><div class="section-sep-dot"></div><div class="section-sep-line"></div>';
+      wrap.appendChild(sep);
+    }
   });
 }
 
@@ -303,13 +607,14 @@ function renderAdmin() {
     const inp = document.createElement('input');
     inp.className = 'admin-input';
     inp.type = 'number'; inp.min = '0'; inp.step = '1';
-    inp.placeholder = '₺ fiyat'; inp.dataset.key = item.key;
+    inp.placeholder = '₺'; inp.dataset.key = item.key;
     const p = prices[item.key];
     if (p !== null && p !== undefined) inp.value = p;
 
     grid.appendChild(lbl);
     grid.appendChild(inp);
-    if (i === 5 || i === 7 || i === 9) {
+
+    if (SEPS_AFTER.includes(i)) {
       const sep = document.createElement('div');
       sep.className = 'admin-sep';
       grid.appendChild(sep);
@@ -319,21 +624,21 @@ function renderAdmin() {
 
 function toggleAdmin() {
   const panel = document.getElementById('admin-panel');
-  const open = panel.classList.toggle('open');
+  const open  = panel.classList.toggle('open');
   if (open) renderAdmin();
 }
 
 async function saveAll() {
   const btn = document.getElementById('save-btn');
-  const ok = document.getElementById('save-ok');
+  const ok  = document.getElementById('save-ok');
   const err = document.getElementById('save-err');
   btn.disabled = true;
-  btn.textContent = 'Kaydediliyor...';
+  btn.textContent = 'Kaydediliyor…';
   err.style.display = 'none';
 
   const updates = [];
   document.querySelectorAll('.admin-input').forEach(inp => {
-    const v = inp.value.trim();
+    const v     = inp.value.trim();
     const price = v === '' || isNaN(parseFloat(v)) ? null : parseFloat(v);
     prices[inp.dataset.key] = price;
     updates.push({ key: inp.dataset.key, price });
