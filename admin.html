@@ -430,25 +430,35 @@ function toast(msg, type = 'ok') {
 
 /* ── Veri yükle ── */
 async function init() {
+  let tableExists = false;
+  // Ürünleri yükle
   try {
-    const [iRes, pRes] = await Promise.all([
-      fetch(`${SB_URL}/rest/v1/minibar_items?select=*&order=sort_order.asc`, { headers: SB_HDR }),
-      fetch(`${SB_URL}/rest/v1/prices?select=key,price`, { headers: SB_HDR })
-    ]);
-
-    if (!iRes.ok) throw new Error('items fetch failed');
-    items  = await iRes.json();
-    const pd = await pRes.json();
-    prices = {};
-    pd.forEach(r => { prices[r.key] = r.price; });
-    setStatus(true);
+    const iRes = await fetch(`${SB_URL}/rest/v1/minibar_items?select=*&order=sort_order.asc`, { headers: SB_HDR });
+    const iData = await iRes.json();
+    if (iRes.ok && Array.isArray(iData)) {
+      items = iData;
+      tableExists = true;
+    } else {
+      items = DEMO_ITEMS;
+      toast('minibar_items tablosu bulunamadı — demo modda çalışıyor', 'err');
+    }
   } catch(e) {
-    console.error(e);
-    setStatus(false);
-    // Supabase tablosu yoksa demo verisini yükle
     items = DEMO_ITEMS;
-    toast('minibar_items tablosu bulunamadı — demo modda çalışıyor', 'err');
+    toast('Ürün verisi yüklenemedi — demo mod', 'err');
   }
+  // Fiyatları ayrı yükle (prices tablosu mevcut)
+  try {
+    const pRes = await fetch(`${SB_URL}/rest/v1/prices?select=key,price`, { headers: SB_HDR });
+    if (pRes.ok) {
+      const pd = await pRes.json();
+      prices = {};
+      pd.forEach(r => { prices[r.key] = r.price; });
+      setStatus(true);
+    } else { setStatus(false); }
+  } catch(e) {
+    setStatus(false);
+  }
+  window._tableExists = tableExists;
   renderList();
 }
 
@@ -594,30 +604,37 @@ async function addItem() {
     const sort_order = items.length ? Math.max(...items.map(i => i.sort_order || 0)) + 1 : 0;
     const newItem = { key, tr, en, ar, trSub, enSub, arSub, sort_order };
 
+    // minibar_items tablosuna ekle
+    let savedToDb = false;
     const iRes = await fetch(`${SB_URL}/rest/v1/minibar_items`, {
       method: 'POST',
       headers: { ...SB_HDR, 'Prefer': 'return=representation' },
       body: JSON.stringify(newItem)
     });
-    if (!iRes.ok) throw new Error(await iRes.text());
-    const [saved] = await iRes.json();
-    items.push(saved);
-
-    // Fiyat satırı da oluştur
-    if (price !== null) {
-      await fetch(`${SB_URL}/rest/v1/prices`, {
-        method: 'POST',
-        headers: { ...SB_HDR, 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ key, price })
-      });
-      prices[key] = price;
+    if (iRes.ok) {
+      const [saved] = await iRes.json();
+      items.push(saved);
+      savedToDb = true;
+    } else {
+      // Tablo yoksa lokal listeye ekle
+      newItem.id = Date.now();
+      items.push(newItem);
     }
+
+    // Fiyat satırı oluştur (prices tablosu çalışıyor)
+    await fetch(`${SB_URL}/rest/v1/prices`, {
+      method: 'POST',
+      headers: { ...SB_HDR, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ key, price: price })
+    });
+    if (price !== null) prices[key] = price;
 
     renderList();
     ['f-key','f-tr','f-en','f-ar','f-trsub','f-ensub','f-arsub','f-price'].forEach(id => { document.getElementById(id).value = ''; });
-    fb.className = 'form-feedback ok'; fb.textContent = '✓ "' + tr + '" eklendi';
-    toast('"' + tr + '" başarıyla eklendi');
-    setTimeout(() => { fb.textContent = ''; }, 3000);
+    fb.className = 'form-feedback ok';
+    fb.textContent = savedToDb ? '✓ "' + tr + '" eklendi' : '✓ "' + tr + '" eklendi (lokal — DB tablosu eksik)';
+    toast(savedToDb ? '"' + tr + '" başarıyla eklendi' : '"' + tr + '" lokal eklendi — minibar_items tablosu oluşturulmalı');
+    setTimeout(() => { fb.textContent = ''; }, 4000);
   } catch(e) {
     console.error(e);
     fb.className = 'form-feedback err'; fb.textContent = 'Hata: ' + (e.message || 'Bilinmeyen hata');
