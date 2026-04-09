@@ -2,10 +2,10 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Swiss Inn Mardin – Mini Bar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+SC:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display+SC:wght@400;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --paper:    #f2e8d0;
@@ -17,6 +17,19 @@
   --gold2:    #c9a84c;
   --red:      #8c1a1a;
   --bg:       #b5a07a;
+
+  /* Fluid font scale — hiç px kırılma olmaz */
+  --f-xs:   clamp(9px,  2.2vw, 11px);
+  --f-sm:   clamp(11px, 2.8vw, 13px);
+  --f-md:   clamp(13px, 3.4vw, 16px);
+  --f-lg:   clamp(17px, 4.5vw, 22px);
+  --f-xl:   clamp(21px, 5.5vw, 28px);
+
+  /* Spacing scale */
+  --sp-xs:  clamp(4px,  1vw,  7px);
+  --sp-sm:  clamp(8px,  2vw,  14px);
+  --sp-md:  clamp(14px, 3.5vw, 22px);
+  --sp-lg:  clamp(20px, 5vw,  32px);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,43 +41,49 @@ body {
     radial-gradient(ellipse at 80% 90%, #7a6040 0%, transparent 60%);
   min-height: 100vh;
   display: flex; flex-direction: column; align-items: center;
-  padding: 32px 16px 56px;
+  padding: var(--sp-lg) clamp(8px, 3vw, 20px) clamp(40px, 10vw, 60px);
   font-family: 'Jost', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* ─── Language Bar ─── */
 .lang-bar {
-  display: flex; gap: 4px; margin-bottom: 20px;
+  display: flex; gap: clamp(2px, 0.8vw, 4px);
+  margin-bottom: var(--sp-md);
   background: rgba(28,21,16,0.18);
-  padding: 4px; border-radius: 30px;
+  padding: 3px; border-radius: 30px;
   backdrop-filter: blur(4px);
 }
 .lang-btn {
   font-family: 'Jost', sans-serif;
-  font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase;
-  padding: 6px 18px; border: none; border-radius: 22px;
+  font-size: var(--f-xs); font-weight: 500;
+  letter-spacing: clamp(1.5px, 0.5vw, 2.5px);
+  text-transform: uppercase;
+  padding: clamp(5px,1.2vw,7px) clamp(12px,3.5vw,20px);
+  border: none; border-radius: 22px;
   background: transparent; color: rgba(242,232,208,0.75); cursor: pointer;
   transition: all 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .lang-btn.active {
-  background: var(--paper);
-  color: var(--ink2);
+  background: var(--paper); color: var(--ink2);
   box-shadow: 0 1px 8px rgba(0,0,0,0.3);
 }
 
-/* ─── Paper ─── */
+/* ─── Paper wrapper ─── */
 .paper-wrap {
   position: relative;
-  width: 100%; max-width: 430px;
-  filter: drop-shadow(0 8px 40px rgba(0,0,0,0.38)) drop-shadow(0 2px 6px rgba(0,0,0,0.22));
+  width: 100%; max-width: 460px;
+  filter: drop-shadow(0 8px 36px rgba(0,0,0,0.36)) drop-shadow(0 2px 5px rgba(0,0,0,0.2));
 }
 
-/* Kağıt kırışması — hafif köşe kıvrımı */
+/* Köşe kıvrımı */
 .paper-wrap::after {
   content: '';
   position: absolute; bottom: -4px; right: -4px;
-  width: 40px; height: 40px;
-  background: linear-gradient(225deg, var(--bg) 46%, rgba(180,156,108,0.4) 46%, transparent 66%);
+  width: clamp(28px, 7vw, 42px); height: clamp(28px, 7vw, 42px);
+  background: linear-gradient(225deg, var(--bg) 46%, rgba(180,156,108,0.35) 46%, transparent 66%);
   border-radius: 0 0 4px 0;
   pointer-events: none; z-index: 10;
 }
@@ -73,11 +92,10 @@ body {
   position: relative;
   background: var(--paper);
   border-radius: 4px 4px 0 4px;
-  padding: 0;
   overflow: hidden;
 }
 
-/* SVG Noise texture overlay */
+/* Noise texture */
 .paper::before {
   content: '';
   position: absolute; inset: 0;
@@ -86,117 +104,95 @@ body {
   pointer-events: none; z-index: 0; opacity: 0.6;
 }
 
-/* ─── Çift çerçeve sistemi ─── */
+/* ─── Çift çerçeve ─── */
 .frame-outer {
   position: relative;
   border: 1.5px solid var(--ink);
-  margin: 8px;
-  border-radius: 2px;
-  z-index: 1;
+  margin: clamp(6px, 1.5vw, 10px);
+  border-radius: 2px; z-index: 1;
 }
 .frame-inner {
   border: 0.75px solid var(--ink3);
-  margin: 5px;
-  padding: 22px 22px 18px;
+  margin: clamp(4px, 1vw, 6px);
+  padding: clamp(16px, 4vw, 26px) clamp(14px, 4vw, 24px) clamp(14px, 3vw, 20px);
   position: relative;
 }
 
-/* Köşe süslemeleri */
-.frame-inner::before,
-.frame-inner::after,
+/* Köşe gold parantezleri */
 .frame-outer::before,
-.frame-outer::after {
+.frame-outer::after,
+.frame-inner::before,
+.frame-inner::after {
   content: '';
   position: absolute;
-  width: 14px; height: 14px;
+  width: clamp(10px, 2.5vw, 15px);
+  height: clamp(10px, 2.5vw, 15px);
 }
-.frame-outer::before { top: -3px; left: -3px; border-top: 2.5px solid var(--gold); border-left: 2.5px solid var(--gold); }
-.frame-outer::after  { top: -3px; right: -3px; border-top: 2.5px solid var(--gold); border-right: 2.5px solid var(--gold); }
-.frame-inner::before { bottom: -3px; left: -3px; border-bottom: 2.5px solid var(--gold); border-left: 2.5px solid var(--gold); }
-.frame-inner::after  { bottom: -3px; right: -3px; border-bottom: 2.5px solid var(--gold); border-right: 2.5px solid var(--gold); }
+.frame-outer::before { top: -3px; left: -3px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.frame-outer::after  { top: -3px; right: -3px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+.frame-inner::before { bottom: -3px; left: -3px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.frame-inner::after  { bottom: -3px; right: -3px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
 
-/* Sarı sararmış köşe lekeleri */
+/* Sararmış lekeler */
 .paper-stain {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.12;
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
   background: radial-gradient(circle, #8a6e35, transparent 70%);
-  pointer-events: none; z-index: 0;
 }
-.stain-tl { width: 80px; height: 80px; top: -20px; left: -20px; }
-.stain-br { width: 60px; height: 60px; bottom: -15px; right: -15px; opacity: 0.08; }
+.stain-tl { width: 90px; height: 90px; top: -25px; left: -25px; opacity: 0.10; }
+.stain-br { width: 65px; height: 65px; bottom: -18px; right: -18px; opacity: 0.07; }
 
 /* ─── Başlık ─── */
-.header-wrap {
-  text-align: center;
-  margin-bottom: 6px;
-  position: relative;
-}
+.header-wrap { text-align: center; margin-bottom: var(--sp-xs); position: relative; }
+
 .hotel-name {
-  font-family: 'Cormorant SC', serif;
-  font-size: 9px; font-weight: 600;
-  letter-spacing: 5px; text-transform: uppercase;
+  font-family: 'Playfair Display SC', serif;
+  font-size: var(--f-xs); font-weight: 400;
+  letter-spacing: clamp(3px, 1.2vw, 6px);
   color: var(--ink3);
-  display: block; margin-bottom: 8px;
+  display: block; margin-bottom: var(--sp-sm);
 }
 
-.ornament {
-  display: flex; align-items: center; gap: 8px;
-  margin: 0 auto 10px;
-}
-.ornament-line {
-  flex: 1; height: 0.75px;
-  background: linear-gradient(to right, transparent, var(--gold2), transparent);
-}
-.ornament-diamond {
-  width: 6px; height: 6px;
-  background: var(--gold);
-  transform: rotate(45deg); flex-shrink: 0;
-}
-.ornament-sm { width: 3px; height: 3px; flex-shrink: 0; background: var(--gold2); transform: rotate(45deg); }
+.ornament { display: flex; align-items: center; gap: clamp(5px, 1.5vw, 10px); margin: 0 auto clamp(8px,2vw,12px); }
+.ornament-line { flex: 1; height: 0.75px; background: linear-gradient(to right, transparent, var(--gold2), transparent); }
+.ornament-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+.ornament-sm { width: 3px; height: 3px; background: var(--gold2); transform: rotate(45deg); flex-shrink: 0; }
 
 .menu-title {
-  font-family: 'Cormorant SC', serif;
-  font-size: 18px; font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--ink);
-  line-height: 1.2;
-  display: block; margin-bottom: 4px;
+  font-family: 'Playfair Display SC', serif;
+  font-size: var(--f-lg); font-weight: 700;
+  letter-spacing: clamp(1px, 0.5vw, 3px);
+  color: var(--ink); line-height: 1.2;
+  display: block; margin-bottom: clamp(2px, 0.6vw, 5px);
 }
-.menu-title.ar { font-family: 'Cormorant Garamond', serif; direction: rtl; letter-spacing: 0; font-size: 17px; }
+.menu-title.ar {
+  font-family: 'Playfair Display', serif;
+  direction: rtl; letter-spacing: 0;
+  font-size: var(--f-md);
+}
 .menu-subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 11px; color: var(--ink3);
-  letter-spacing: 1px; display: block;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: var(--f-sm);
+  color: var(--ink3); letter-spacing: clamp(0.5px, 0.3vw, 1.5px);
+  display: block;
 }
 
-/* ─── Divider ─── */
-.divider {
-  display: flex; align-items: center; gap: 6px;
-  margin: 14px 0 16px;
-}
-.div-line { flex: 1; height: 0.75px; background: linear-gradient(to right, transparent, var(--ink3), transparent); }
-.div-center {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 13px; color: var(--ink3);
-  letter-spacing: 0.5px;
-}
-
-/* ─── Menu Items ─── */
+/* ─── Menu items ─── */
 .loading-bar {
   text-align: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 12px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: var(--f-sm);
   color: var(--ink3); letter-spacing: 1px;
-  margin: 10px 0;
+  margin: var(--sp-sm) 0;
 }
 
-#items-wrap { display: flex; flex-direction: column; gap: 1px; }
+#items-wrap { display: flex; flex-direction: column; }
 
 .menu-row {
   display: flex; align-items: flex-end;
-  gap: 6px; padding: 5px 0;
-  border-bottom: 0.5px solid rgba(107,90,62,0.18);
+  gap: clamp(4px, 1.2vw, 8px);
+  padding: clamp(4px, 1.2vw, 7px) 0;
+  border-bottom: 0.5px solid rgba(107,90,62,0.17);
   opacity: 0;
   animation: fadeRow 0.3s ease forwards;
 }
@@ -209,154 +205,180 @@ body {
 }
 
 .item-name {
-  font-family: 'Cormorant SC', serif;
-  font-size: 11px; font-weight: 600;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--ink2); white-space: nowrap;
-  line-height: 1.5;
-  flex-shrink: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: var(--f-sm); font-weight: 600;
+  letter-spacing: clamp(0.3px, 0.2vw, 0.8px);
+  color: var(--ink2);
+  /* KRITIK: nowrap yok — uzun isimler kırılsın */
+  white-space: normal;
+  line-height: 1.45;
+  /* Fiyat kutusuna yer bırak */
+  min-width: 0; flex: 1 1 0;
+  max-width: calc(100% - 80px);
 }
 .item-name.ar {
-  font-family: 'Cormorant Garamond', serif;
-  direction: rtl; text-transform: none;
-  font-size: 12.5px; letter-spacing: 0;
+  font-family: 'Playfair Display', serif;
+  direction: rtl; letter-spacing: 0;
+  font-size: var(--f-md);
 }
 .item-sub {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 9.5px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(9px, 2vw, 11px);
   color: var(--ink3); letter-spacing: 0;
-  text-transform: none; font-weight: 400;
-  margin-top: 1px;
+  font-weight: 400; margin-top: 2px;
 }
 .item-sub.ar { direction: rtl; }
 
 .dots {
-  flex: 1;
-  border-bottom: 1px dotted rgba(107,90,62,0.4);
-  margin-bottom: 6px;
-  min-width: 8px;
+  /* dots sadece item-name'in flex büyümesiyle yönetilsin */
+  width: clamp(6px, 2vw, 14px);
+  border-bottom: 1px dotted rgba(107,90,62,0.38);
+  margin-bottom: clamp(5px, 1.5vw, 8px);
+  flex-shrink: 0;
 }
 
-/* ─── Fiyat Kutusu ─── */
+/* ─── Fiyat kutusu ─── */
 .price-box {
-  border: 1px solid var(--ink);
-  border-radius: 2px;
-  min-width: 68px; height: 24px;
+  border: 1px solid var(--ink); border-radius: 2px;
+  width: clamp(60px, 17vw, 78px);
+  height: clamp(22px, 5.5vw, 28px);
   background: var(--paper);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; position: relative; overflow: hidden;
 }
-/* İç gölge — mürekkep baskı hissi */
 .price-box::before {
   content: '';
   position: absolute; inset: 0;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.07);
   pointer-events: none;
 }
 .price-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px; font-weight: 600;
-  color: var(--ink); padding: 0 6px; white-space: nowrap;
+  font-family: 'Playfair Display', serif;
+  font-size: var(--f-md); font-weight: 600;
+  color: var(--ink); padding: 0 clamp(4px, 1vw, 7px); white-space: nowrap;
 }
 .price-tl {
-  font-size: 9px; color: var(--ink3);
-  font-family: 'Jost', sans-serif;
+  font-size: clamp(8px, 1.8vw, 10px);
+  color: var(--ink3); font-family: 'Jost', sans-serif;
   font-weight: 400; margin-left: 1px;
 }
-/* Boş kutu — virgül efekti */
 .price-box.empty::after {
   content: '—';
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 12px; color: rgba(107,90,62,0.35);
+  font-family: 'Playfair Display', serif;
+  font-size: var(--f-sm); color: rgba(107,90,62,0.3);
 }
 
-/* ─── Section Separator ─── */
+/* ─── Section separator ─── */
 .section-sep {
-  display: flex; align-items: center; gap: 8px;
-  margin: 8px 0;
+  display: flex; align-items: center; gap: clamp(5px, 1.5vw, 10px);
+  margin: clamp(6px, 1.5vw, 10px) 0;
 }
-.section-sep-line { flex: 1; height: 0.5px; background: var(--gold2); opacity: 0.5; }
-.section-sep-dot { width: 4px; height: 4px; background: var(--gold2); transform: rotate(45deg); opacity: 0.6; }
+.section-sep-line { flex: 1; height: 0.5px; background: var(--gold2); opacity: 0.48; }
+.section-sep-dot { width: 4px; height: 4px; background: var(--gold2); transform: rotate(45deg); opacity: 0.58; flex-shrink: 0; }
 
 /* ─── Logo / Footer ─── */
 .logo-area {
   display: flex; align-items: center; justify-content: center;
-  gap: 12px; margin-top: 18px; padding-top: 14px;
+  gap: clamp(8px, 2.5vw, 14px);
+  margin-top: clamp(14px, 3.5vw, 20px);
+  padding-top: clamp(10px, 2.5vw, 16px);
   border-top: 0.75px solid var(--ink3);
   position: relative;
 }
 .logo-area::before {
   content: '';
   position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
-  width: 60px; height: 1px; background: var(--gold2); opacity: 0.6;
+  width: clamp(40px, 12vw, 70px); height: 1px;
+  background: var(--gold2); opacity: 0.55;
 }
 
-.logo-svg { width: 48px; height: 48px; flex-shrink: 0; }
+.logo-svg {
+  width: clamp(36px, 9vw, 52px);
+  height: clamp(36px, 9vw, 52px);
+  flex-shrink: 0;
+}
 
 .logo-text { line-height: 1.15; }
 .brand {
-  font-family: 'Cormorant SC', serif;
-  font-size: 24px; font-weight: 700;
-  color: var(--ink); display: block; letter-spacing: 1px;
+  font-family: 'Playfair Display SC', serif;
+  font-size: clamp(18px, 5vw, 26px); font-weight: 700;
+  color: var(--ink); display: block; letter-spacing: 0.5px;
 }
 .tagline {
   font-family: 'Jost', sans-serif;
-  font-size: 7.5px; letter-spacing: 3px; color: var(--ink3);
-  text-transform: uppercase; display: block; margin-top: 2px;
+  font-size: clamp(7px, 1.6vw, 9px);
+  letter-spacing: clamp(1.5px, 0.7vw, 3px);
+  color: var(--ink3); text-transform: uppercase;
+  display: block; margin-top: 2px;
 }
 .tagline .mardin {
-  color: var(--red); font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  color: var(--red); font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(9px, 2.5vw, 13px);
+  font-weight: 600; letter-spacing: 0.5px;
 }
 
 /* ─── Admin ─── */
-.admin-wrap { width: 100%; max-width: 430px; margin-top: 16px; }
+.admin-wrap {
+  width: 100%; max-width: 460px;
+  margin-top: clamp(10px, 2.5vw, 16px);
+}
 
 .admin-toggle {
   display: block; width: 100%;
   font-family: 'Jost', sans-serif;
-  font-size: 9px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase;
-  padding: 9px 0;
+  font-size: clamp(8px, 2vw, 10px); font-weight: 500;
+  letter-spacing: clamp(1.5px, 0.5vw, 2.5px); text-transform: uppercase;
+  padding: clamp(8px, 2vw, 11px) 0;
   background: rgba(28,21,16,0.12);
   border: 1px solid rgba(28,21,16,0.25); border-radius: 4px;
-  color: rgba(242,232,208,0.8); cursor: pointer;
-  text-align: center; transition: all 0.2s;
+  color: rgba(242,232,208,0.8); cursor: pointer; text-align: center;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
 .admin-toggle:hover { background: rgba(28,21,16,0.22); color: var(--paper); }
 
 .admin-panel {
   display: none;
   background: var(--paper2);
-  border: 1.5px solid var(--ink);
-  border-radius: 4px;
-  padding: 20px; margin-top: 10px;
+  border: 1.5px solid var(--ink); border-radius: 4px;
+  padding: clamp(14px, 3.5vw, 22px);
+  margin-top: 10px;
 }
 .admin-panel.open { display: block; }
 
 .admin-title {
-  font-family: 'Cormorant SC', serif;
-  font-size: 15px; font-weight: 600; color: var(--ink);
-  margin-bottom: 14px; padding-bottom: 8px;
-  border-bottom: 0.75px solid var(--gold2);
-  letter-spacing: 1px;
+  font-family: 'Playfair Display SC', serif;
+  font-size: var(--f-md); font-weight: 700; color: var(--ink);
+  margin-bottom: var(--sp-sm); padding-bottom: var(--sp-xs);
+  border-bottom: 0.75px solid var(--gold2); letter-spacing: 1px;
 }
 
-.admin-grid { display: grid; grid-template-columns: 1fr 100px; gap: 6px 10px; align-items: center; }
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr clamp(80px, 22vw, 110px);
+  gap: clamp(5px, 1.2vw, 8px) clamp(8px, 2vw, 12px);
+  align-items: center;
+}
 
 .admin-label {
   font-family: 'Jost', sans-serif;
-  font-size: 9.5px; font-weight: 500;
-  letter-spacing: 1px; text-transform: uppercase; color: var(--ink2);
+  font-size: clamp(9px, 2.1vw, 11px); font-weight: 500;
+  letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink2);
 }
 
 .admin-input {
   width: 100%; background: var(--paper);
   border: 1px solid var(--gold); border-radius: 2px;
   color: var(--ink);
-  font-family: 'Cormorant Garamond', serif; font-size: 15px;
-  text-align: right; padding: 4px 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(13px, 3.5vw, 16px);
+  text-align: right; padding: clamp(4px,1vw,6px) clamp(6px,1.5vw,10px);
   outline: none; transition: border-color 0.15s;
+  /* iOS zoom engeli: 16px altına düşmez */
+  min-font-size: 16px;
 }
 .admin-input:focus { border-color: var(--ink); }
 .admin-input::placeholder { color: #bbb; font-size: 10px; font-family: 'Jost', sans-serif; }
@@ -364,41 +386,48 @@ body {
 .admin-sep {
   grid-column: 1/-1; height: 0.75px;
   background: linear-gradient(to right, transparent, var(--gold2), transparent);
-  margin: 4px 0;
+  margin: 2px 0;
 }
 
 .save-btn {
-  margin-top: 14px; width: 100%;
+  margin-top: var(--sp-sm); width: 100%;
   font-family: 'Jost', sans-serif;
-  font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
-  padding: 11px;
+  font-size: clamp(9px, 2.2vw, 11px); font-weight: 600;
+  letter-spacing: clamp(2px, 0.6vw, 3px); text-transform: uppercase;
+  padding: clamp(9px, 2.5vw, 13px);
   background: var(--ink); color: var(--paper);
-  border: none; border-radius: 2px; cursor: pointer; transition: background 0.18s;
+  border: none; border-radius: 2px; cursor: pointer;
+  transition: background 0.18s;
+  -webkit-tap-highlight-color: transparent;
 }
 .save-btn:hover { background: #2c2318; }
 .save-btn:disabled { background: #888; cursor: not-allowed; }
 
 .save-ok {
-  text-align: center; font-size: 11px; color: #2a6e2a;
+  text-align: center; font-size: clamp(10px, 2.3vw, 12px); color: #2a6e2a;
   font-family: 'Jost', sans-serif; margin-top: 8px;
   letter-spacing: 1px; opacity: 0; transition: opacity 0.3s;
 }
 .save-ok.show { opacity: 1; }
 .save-err {
-  text-align: center; font-size: 11px; color: #c0392b;
+  text-align: center; font-size: clamp(10px, 2.3vw, 12px); color: #c0392b;
   font-family: 'Jost', sans-serif; margin-top: 8px;
   letter-spacing: 1px; display: none;
 }
 
-/* ─── Geçiş animasyonu ─── */
+/* ─── Geçiş ─── */
 .fade-out { opacity: 0; transition: opacity 0.15s; }
 .fade-in  { opacity: 1; transition: opacity 0.2s; }
 
-/* ─── Mobile ─── */
+/* ─── 480px ve altı (küçük telefon) ─── */
 @media (max-width: 480px) {
-  .frame-inner { padding: 16px 14px 14px; }
-  .item-name { font-size: 10px; letter-spacing: 1px; }
-  .menu-title { font-size: 15px; }
+  .item-name { max-width: calc(100% - 68px); }
+  .dots { width: 6px; }
+}
+
+/* ─── 640px üstü (büyük telefon / tablet) ─── */
+@media (min-width: 640px) {
+  .item-name { max-width: calc(100% - 90px); }
 }
 </style>
 </head>
