@@ -282,6 +282,19 @@ body {
 .toast.err { background: #200e0e; border-color: var(--red);   color: #f5a5a0; }
 .toast.show { transform: translateX(0); }
 
+/* ── Çevir butonu ── */
+.translate-btn {
+  font-family: 'Jost',sans-serif; font-size: 10px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 6px 12px; white-space: nowrap;
+  background: transparent; border: 1px solid var(--gold2);
+  border-radius: 4px; color: var(--gold); cursor: pointer;
+  transition: all .18s; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.translate-btn:hover { background: var(--gold2); color: var(--bg); }
+.translate-btn:disabled { opacity: .4; cursor: not-allowed; }
+
 @media (max-width: 480px) {
   .toast-wrap { bottom: 12px; right: 12px; left: 12px; }
   .toast { max-width: 100%; }
@@ -356,7 +369,10 @@ body {
 
       <div class="form-group">
         <label class="form-label">Türkçe İsim <span class="lang-tag">TR</span></label>
-        <input class="form-input" id="f-tr" placeholder="Çay">
+        <div style="display:flex;gap:6px">
+          <input class="form-input" id="f-tr" placeholder="Çay" style="flex:1">
+          <button class="translate-btn" id="trans-btn" onclick="autoTranslate()" title="TR > EN & AR otomatik çevir">Çevir</button>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">İngilizce İsim <span class="lang-tag">EN</span></label>
@@ -371,7 +387,10 @@ body {
 
       <div class="form-group">
         <label class="form-label">TR Alt Metin <span class="lang-tag" style="color:var(--text3)">OPSİYONEL</span></label>
-        <input class="form-input" id="f-trsub" placeholder="Resepsiyondan talep ediniz">
+        <div style="display:flex;gap:6px">
+          <input class="form-input" id="f-trsub" placeholder="Resepsiyondan talep ediniz" style="flex:1">
+          <button class="translate-btn" onclick="autoTranslateSub()" title="Alt metin çevir">Çevir</button>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">EN Alt Metin <span class="lang-tag" style="color:var(--text3)">OPSİYONEL</span></label>
@@ -665,6 +684,48 @@ async function deleteItem(key, id) {
     toast('"' + key + '" silindi');
   } catch(e) {
     toast('Silme başarısız', 'err');
+  }
+}
+
+/* ── Otomatik Çeviri (MyMemory API) ── */
+async function translateText(text, from, to) {
+  const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`);
+  const data = await res.json();
+  return data.responseData?.translatedText || '';
+}
+
+async function autoTranslate() {
+  const tr = document.getElementById('f-tr').value.trim();
+  if (!tr) { toast('Önce Türkçe isim girin', 'err'); return; }
+  const btn = document.getElementById('trans-btn');
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const [en, ar] = await Promise.all([
+      translateText(tr, 'tr', 'en'),
+      translateText(tr, 'tr', 'ar')
+    ]);
+    document.getElementById('f-en').value = en;
+    document.getElementById('f-ar').value = ar;
+    toast('Çeviri tamamlandı');
+  } catch(e) {
+    toast('Çeviri başarısız', 'err');
+  }
+  btn.disabled = false; btn.textContent = 'Çevir';
+}
+
+async function autoTranslateSub() {
+  const tr = document.getElementById('f-trsub').value.trim();
+  if (!tr) { toast('Önce TR alt metin girin', 'err'); return; }
+  try {
+    const [en, ar] = await Promise.all([
+      translateText(tr, 'tr', 'en'),
+      translateText(tr, 'tr', 'ar')
+    ]);
+    document.getElementById('f-ensub').value = en;
+    document.getElementById('f-arsub').value = ar;
+    toast('Alt metin çevirisi tamamlandı');
+  } catch(e) {
+    toast('Çeviri başarısız', 'err');
   }
 }
 
